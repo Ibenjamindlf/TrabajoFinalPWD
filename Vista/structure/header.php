@@ -1,74 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index Page</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-
-  <!-- Checkbox escondido para activar el Carrito -->
-  <input type="checkbox" id="cartToggle" class="hidden">
-
-  <!-- Navbar -->
-  <header class="w-full bg-white shadow-md p-4 fixed top-0 left-0 z-20">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="hidden md:flex w-full justify-between items-center">
-        <div class="text-lg font-bold"><a href="/TrabajoFinalPWD"><img class="h-8 w-8" src="/TrabajoFinalPWD/Vista/sources/logo.png" alt=""></a></div>
-        <nav class="flex space-x-10 font-semibold">
-          <a href="/TrabajoFinalPWD" class="text-gray-700 hover:text-gray-900">Inicio</a>
-          <a href="/TrabajoFinalPWD/Vista/tienda.php" class="text-gray-700 hover:text-gray-900">Tienda</a>
-          <a href="/TrabajoFinalPWD/Vista/about.php" class="text-gray-700 hover:text-gray-900">Sobre nosotros</a>
-        </nav>
-        <div class="flex space-x-6 items-center">
-          <a href="/TrabajoFinalPWD/Vista/login.php" class="text-gray-700 hover:text-gray-900">Iniciar sesión</a>
-          <label for="cartToggle" class="cursor-pointer text-gray-700 hover:text-gray-900">
-            <!-- Cart Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-2 8h14l-2-8m-5 0V5m0 10a1 1 0 101 1m-5-5a1 1 0 101 1" />
-            </svg>
-          </label>
+<body class="bg-gray-50">
+    <div class="fixed left-0 top-0 w-full z-20">
+        <!-- Top banner -->
+        <div class="bg-indigo-600">
+            <div class="max-w-7xl mx-auto py-2 px-4">
+                <p class="text-center text-sm text-white">Envío gratis en compras superiores a $100.000 🚚</p>
+            </div>
         </div>
-      </div>
 
-      <div class="md:hidden flex items-center justify-between w-full">
-        <div class="text-lg font-bold"><a href="/TrabajoFinalPWD"><img class="h-8 w-8" src="/TrabajoFinalPWD/Vista/sources/logo.png" alt=""></a></div>
-      </div>
+        <!-- Main Header -->
+        <header class="w-full bg-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4">
+                <!-- Top Header with Search -->
+                <div class="flex items-center justify-between py-4 border-b">
+                    <div class="flex items-center space-x-4">
+                        <!-- Mobile menu button -->
+                        <label for="mobileMenu" class="md:hidden">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </label>
+                        <a href="/TrabajoFinalPWD" class="flex items-center">
+                            <img class="h-10 w-10" src="/TrabajoFinalPWD/Vista/sources/logo.png" alt="Logo">
+                            <span class="ml-2 text-xl font-bold text-gray-800">TechStore</span>
+                        </a>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="hidden md:flex flex-1 max-w-2xl mx-8">
+                        <div class="relative w-full">
+                            <input type="text" placeholder="Buscar productos..." class="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-indigo-500">
+                            <button class="absolute right-3 top-2">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Header Items -->
+                    <div class="flex items-center space-x-6">
+                        <a href="/TrabajoFinalPWD/Vista/login.php" class="hidden md:flex items-center text-gray-700 hover:text-indigo-600">
+                            <svg class="h-6 w-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span>Cuenta</span>
+                        </a>
+                        <label for="cartToggle" class="flex items-center cursor-pointer text-gray-700 hover:text-indigo-600">
+                            <div class="relative">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                <span class="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                            </div>
+                            <span class="hidden md:inline ml-1">Carrito</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="hidden md:flex space-x-8 py-4">
+                    <a href="/TrabajoFinalPWD/Vista/tienda.php" class="text-gray-600 hover:text-indigo-600 font-medium">Productos</a>
+                    <a href="/TrabajoFinalPWD/Vista/about.php" class="text-gray-600 hover:text-indigo-600 font-medium">Sobre nosotros</a>
+                </nav>
+            </div>
+        </header>
     </div>
-  </header>
-
-  <!-- Carrito Overlay -->
-  <div id="cartOverlay" class="fixed inset-0 z-30 bg-black bg-opacity-50 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out"></div>
-  
-  <div id="cartDrawer" class="fixed top-0 right-0 h-full w-80 md:w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-40 p-4 md:max-w-xs">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-lg font-bold">Tu Carrito</h2>
-      <label for="cartToggle" class="cursor-pointer text-gray-500 hover:text-gray-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </label>
+    <div class="pt-36">
     </div>
-    <p class="text-gray-700">Tu carrito está vacío.</p>
-  </div>
 
-  <style>
-    /* Muestra el Carrito y el overlay cuando el checkbox es chequeado */
-    #cartToggle:checked ~ #cartDrawer {
-      transform: translateX(0);
-    }
-    #cartToggle:checked ~ #cartOverlay {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    /* Hace que el Carrito ocupe toda la pantalla en pantallas pequeñas */
-    @media (max-width: 768px) {
-      #cartDrawer {
-        width: 100vw;
-      }
-    }
-  </style>
+    <input type="checkbox" id="cartToggle" class="peer hidden">
+    <input type="checkbox" id="mobileMenu" class="hidden">
 
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 z-30 transform transition-transform duration-300 ease-in-out md:hidden">
+        <!-- Mobile menu content here -->
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="fixed inset-0 z-30 bg-black/50 opacity-0 transition-opacity duration-300 ease-in-out peer-checked:opacity-100 peer-checked:pointer-events-auto pointer-events-none"></div>
+
+    <!-- Cart Drawer -->
+    <div class="fixed right-0 top-0 z-40 h-full w-80 translate-x-full transform bg-white shadow-lg transition-transform duration-300 ease-in-out peer-checked:translate-x-0">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Tu Carrito</h2>
+                <label for="cartToggle" class="cursor-pointer text-gray-500 hover:text-gray-700">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </label>
+            </div>
+
+            <div class="flex flex-col h-full">
+                <div class="flex-1">
+                    <p class="text-gray-500 text-center py-8">Tu carrito está vacío</p>
+                </div>
+                
+                <div class="border-t pt-4">
+                    <div class="flex justify-between mb-4">
+                        <span class="text-gray-600">Subtotal</span>
+                        <span class="font-semibold">$0.00</span>
+                    </div>
+                    <button class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-150">
+                        Finalizar Compra
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @media (max-width: 768px) {
+            #cartDrawer {
+                width: 100vw;
+            }
+        }
+    </style>
 </body>
 </html>

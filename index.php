@@ -7,12 +7,12 @@
     <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/logo.png" type="image/x-icon">
     <title>Inicio</title>
 </head>
-<body class="d-flex flex-col min-vh-screen">
+<body class="flex min-h-screen flex-col">
     <?php
         include_once ('Vista/structure/header.php');
     ?>
     <main>
-        <div class="flex-grow">
+        <div class="grow">
             <section class="bg-white py-20">
                 <div class="container mx-auto px-6 text-center">
                     <h1 class="text-4xl font-bold mb-4">Bienvenido a Nuestra Tienda</h1>
@@ -45,7 +45,7 @@
                         <div class="mb-8 md:mb-0">
                             <img class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto" src="https://avatars.githubusercontent.com/u/150484970?v=4" alt="Miembro del equipo">
                             <h3 class="text-lg md:text-xl font-semibold mt-4">Facundo Ledesma</h3>
-                            <p class="text-gray-600">Tirador de goma</p>
+                            <p class="text-gray-600">Desarrollador Web</p>
                         </div>
                         <div class="mb-8 md:mb-0">
                             <img class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto" src="https://avatars.githubusercontent.com/u/206235917?v=4" alt="Miembro del equipo">
@@ -55,7 +55,7 @@
                         <div class="mb-8 md:mb-0">
                             <img class="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto" src="https://avatars.githubusercontent.com/u/149085169?v=4" alt="Miembro del equipo">
                             <h3 class="text-lg md:text-xl font-semibold mt-4">Matias Bacsay</h3>
-                            <p class="text-gray-600">"Lucas v2"</p>
+                            <p class="text-gray-600">Desarrollador Web</p>
                         </div>
                     </div>
                 </div>
@@ -64,6 +64,33 @@
                 <div class="container mx-auto px-6 text-center">
                     <h2 class="text-3xl font-bold mb-4">Contacto</h2>
                     <p class="text-lg text-gray-700">Si tenés alguna pregunta o necesitás ayuda, no nos contactes.</p>
+                </div>
+            </section>
+            <section class="bg-gray-100 py-12 flex justify-center">
+                <div class="relative inline-flex items-center justify-center group">
+                    <div class="absolute inset-0 duration-300 bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:scale-110"></div>
+                    <a
+                        href="https://github.com/Ibenjamindlf/TrabajoFinalPWD"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="relative inline-flex items-center justify-center text-base rounded-xl bg-gray-900 px-8 py-3 font-semibold text-white transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:scale-105 hover:shadow-gray-600/30"
+                        title="Visita nuestro repositorio"
+                    >
+                        <span>Visita nuestro repositorio</span>
+                        <svg
+                            class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round" 
+                                stroke-width="2" 
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
+                            />
+                        </svg>
+                    </a>
                 </div>
             </section>
         </div>
