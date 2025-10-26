@@ -53,15 +53,15 @@
                             </svg>
                             <span>Cuenta</span>
                         </a>
-                        <label for="cartToggle" class="flex items-center cursor-pointer text-gray-700 hover:text-indigo-600">
+                        <a href="/TrabajoFinalPWD/Vista/cart.php" class="flex items-center text-gray-700 hover:text-indigo-600">
                             <div class="relative">
                                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                                 </svg>
-                                <span class="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                                <span id="cartCount" class="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                             </div>
                             <span class="hidden md:inline ml-1">Carrito</span>
-                        </label>
+                        </a>
                     </div>
                 </div>
 
@@ -84,10 +84,7 @@
         <!-- Mobile menu content here -->
     </div>
 
-    <!-- Cart Overlay -->
-    <div class="fixed inset-0 z-30 bg-black/50 opacity-0 transition-opacity duration-300 ease-in-out peer-checked:opacity-100 peer-checked:pointer-events-auto pointer-events-none"></div>
-
-    <!-- Cart Drawer -->
+    <!-- Cart Drawer (removed usage: kept for compatibility; actual page cart is separate) -->
     <div class="fixed right-0 top-0 z-40 h-full w-80 translate-x-full transform bg-white shadow-lg transition-transform duration-300 ease-in-out peer-checked:translate-x-0">
         <div class="p-6">
             <div class="flex items-center justify-between mb-8">
@@ -124,5 +121,22 @@
             }
         }
     </style>
+
+    <script>
+        // Mantener contador visible y reactivo: lee localStorage 'cart'
+        function updateCartCount() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const totalQty = cart.reduce((s, i) => s + (i.qty || 0), 0);
+                const el = document.getElementById('cartCount');
+                if (el) el.textContent = totalQty;
+            } catch (e) {
+                console.error('cart count error', e);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+        // actualizar si se cambia localStorage en otra pestaña
+        window.addEventListener('storage', (e) => { if (e.key === 'cart') updateCartCount(); });
+    </script>
 </body>
 </html>
