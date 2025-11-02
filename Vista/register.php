@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
+    <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/Logo.png" type="image/x-icon">
     <title>Registro</title>
 </head>
-<body class="flex flex-col min-h-screen bg-gray-50">
+<style>
+    body {
+        background-image: url('https://www.10wallpaper.com/wallpaper/1920x1080/1609/Vinyl_gramophone_macro-2016_Music_HD_Wallpaper_1920x1080.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+<body class="flex flex-col min-h-screen">
 <?php
     include_once ('../Vista/structure/header.php');
 ?>
@@ -15,7 +23,7 @@
     <div class="w-full max-w-md">
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
             <div class="p-6 text-center border-b">
-                <img src="/TrabajoFinalPWD/Vista/sources/logo.png" alt="Logo" class="mx-auto h-12 w-12 mb-3">
+                <img src="/TrabajoFinalPWD/Vista/sources/Isologo.png" alt="Logo" class="mx-auto h-60 w-60 mb-3">
                 <h1 class="text-2xl font-semibold text-gray-800">Crear cuenta</h1>
                 <p class="text-sm text-gray-500 mt-1">Registrate para comprar</p>
             </div>
@@ -65,19 +73,19 @@
 
                 <div class="flex items-center">
                     <label class="inline-flex items-center text-sm text-gray-600">
-                        <input type="checkbox" name="terms" id="terms" class="form-checkbox h-4 w-4 text-indigo-600">
-                        <span class="ml-2">Acepto los <a href="#" class="text-indigo-600 hover:underline">Términos y Condiciones</a></span>
+                        <input type="checkbox" name="terms" id="terms" class="form-checkbox h-4 w-4 text-orange-600">
+                        <span class="ml-2">Acepto los <a href="#" class="text-orange-600 hover:underline">Términos y Condiciones</a></span>
                     </label>
                 </div>
                 <p id="termsError" class="mt-1 text-xs text-red-500 hidden">Debés aceptar los términos.</p>
 
-                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition">
+                <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg font-medium hover:bg-orange-700 transition">
                     Crear cuenta
                 </button>
 
                 <div class="text-center text-sm text-gray-500">
                     ¿Ya tenés cuenta?
-                    <a href="/TrabajoFinalPWD/Vista/login.php" class="text-indigo-600 hover:underline">Iniciar sesión</a>
+                    <a href="/TrabajoFinalPWD/Vista/login.php" class="text-orange-600 hover:underline">Iniciar sesión</a>
                 </div>
 
                 <div class="pt-3">
