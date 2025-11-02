@@ -18,11 +18,11 @@
         <div id="summary" class="mt-6 hidden">
             <div class="flex justify-between items-center">
                 <div class="text-lg font-medium">Total</div>
-                <div id="totalPrice" class="text-xl font-bold text-indigo-600">$0</div>
+                <div id="totalPrice" class="text-xl font-bold text-orange-600">$0</div>
             </div>
             <div class="mt-4">
                 <a href="/TrabajoFinalPWD/Vista/tienda.php" class="inline-block mr-2 bg-gray-100 px-4 py-2 rounded hover:bg-gray-200">Seguir Comprando</a>
-                <button id="checkoutBtn" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Finalizar Compra</button>
+                <button id="checkoutBtn" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Finalizar Compra</button>
             </div>
         </div>
     </div>

@@ -20,10 +20,10 @@
             <div class="bg-white rounded-xl shadow p-4 flex flex-col">
                 <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 1" class="w-full h-40 object-cover rounded-md mb-4">
                 <h2 class="text-lg font-semibold text-gray-800">Producto 1</h2>
-                <p class="text-indigo-600 font-bold mt-1">$12.499</p>
+                <p class="text-orange-600 font-bold mt-1">$12.499</p>
                 <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 1.</p>
                 <div class="mt-4 flex gap-2">
-                    <button data-product="1" class="view-product w-1/2 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">Ver producto</button>
+                    <button data-product="1" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
                     <button data-add="1" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
                 </div>
             </div>
@@ -32,10 +32,10 @@
             <div class="bg-white rounded-xl shadow p-4 flex flex-col">
                 <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 2" class="w-full h-40 object-cover rounded-md mb-4">
                 <h2 class="text-lg font-semibold text-gray-800">Producto 2</h2>
-                <p class="text-indigo-600 font-bold mt-1">$8.299</p>
+                <p class="text-orange-600 font-bold mt-1">$8.299</p>
                 <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 2.</p>
                 <div class="mt-4 flex gap-2">
-                    <button data-product="2" class="view-product w-1/2 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">Ver producto</button>
+                    <button data-product="2" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
                     <button data-add="2" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
                 </div>
             </div>
@@ -44,10 +44,10 @@
             <div class="bg-white rounded-xl shadow p-4 flex flex-col">
                 <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 3" class="w-full h-40 object-cover rounded-md mb-4">
                 <h2 class="text-lg font-semibold text-gray-800">Producto 3</h2>
-                <p class="text-indigo-600 font-bold mt-1">$6.750</p>
+                <p class="text-orange-600 font-bold mt-1">$6.750</p>
                 <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 3.</p>
                 <div class="mt-4 flex gap-2">
-                    <button data-product="3" class="view-product w-1/2 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">Ver producto</button>
+                    <button data-product="3" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
                     <button data-add="3" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
                 </div>
             </div>
@@ -56,10 +56,10 @@
             <div class="bg-white rounded-xl shadow p-4 flex flex-col">
                 <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 4" class="w-full h-40 object-cover rounded-md mb-4">
                 <h2 class="text-lg font-semibold text-gray-800">Producto 4</h2>
-                <p class="text-indigo-600 font-bold mt-1">$2.199</p>
+                <p class="text-orange-600 font-bold mt-1">$2.199</p>
                 <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 4.</p>
                 <div class="mt-4 flex gap-2">
-                    <button data-product="4" class="view-product w-1/2 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">Ver producto</button>
+                    <button data-product="4" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
                     <button data-add="4" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                     <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
                     <div class="p-6 md:w-1/2">
                         <h3 class="text-2xl font-semibold">Producto 1</h3>
-                        <p class="text-indigo-600 font-bold mt-2">$12.499</p>
+                        <p class="text-orange-600 font-bold mt-2">$12.499</p>
                         <p class="text-gray-600 mt-4">Descripción del producto 1.</p>
                         <div class="mt-6 flex gap-2">
                             <button data-add="1" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
@@ -93,7 +93,7 @@
                     <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
                     <div class="p-6 md:w-1/2">
                         <h3 class="text-2xl font-semibold">Producto 2</h3>
-                        <p class="text-indigo-600 font-bold mt-2">$8.299</p>
+                        <p class="text-orange-600 font-bold mt-2">$8.299</p>
                         <p class="text-gray-600 mt-4">Descripción del producto 2.</p>
                         <div class="mt-6 flex gap-2">
                             <button data-add="2" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
@@ -111,7 +111,7 @@
                     <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
                     <div class="p-6 md:w-1/2">
                         <h3 class="text-2xl font-semibold">Producto 3</h3>
-                        <p class="text-indigo-600 font-bold mt-2">$6.750</p>
+                        <p class="text-orange-600 font-bold mt-2">$6.750</p>
                         <p class="text-gray-600 mt-4">Descripción del producto 3.</p>
                         <div class="mt-6 flex gap-2">
                             <button data-add="3" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
@@ -129,7 +129,7 @@
                     <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
                     <div class="p-6 md:w-1/2">
                         <h3 class="text-2xl font-semibold">Producto 4</h3>
-                        <p class="text-indigo-600 font-bold mt-2">$2.199</p>
+                        <p class="text-orange-600 font-bold mt-2">$2.199</p>
                         <p class="text-gray-600 mt-4">Descripción del producto 4.</p>
                         <div class="mt-6 flex gap-2">
                             <button data-add="4" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
