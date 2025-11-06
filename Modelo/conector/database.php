@@ -16,7 +16,7 @@ class dataBase extends PDO {
     public function __construct(){
         $this->engine = 'mysql';
         $this->host = 'localhost';
-        $this->database = 'db_ecommerce_PWD'; // ⚠️ TENER CON ESTE NOMBRE LA BDD
+        $this->database = 'bdcarritocompras'; // ⚠️ TENER CON ESTE NOMBRE LA BDD
         $this->user = 'root';
         $this->pass = '';
         $this->debug = true;
