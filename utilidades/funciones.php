@@ -24,4 +24,29 @@ function data_submitted()
     return $requestData;
 }
 
+// Funcion que sirve para debuguear
+function debuguear($variable) : string {
+    echo "<pre>";
+    var_dump($variable);
+    echo "</pre>";
+    exit;
+}
+
+// Función que revisa que el usuario esté autenticado
+
+function isAuth() : void {
+    if (!isset($_SESSION['login'])) {
+        header('Location: /');
+        exit;
+    }
+}
+
+function isAdmin() : void {
+
+    if(!isset($_SESSION['admin'])) {
+        header('Location: /');
+        exit;
+    }
+}
+
 ?>
