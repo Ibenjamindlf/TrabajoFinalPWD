@@ -1,2 +1,0 @@
-Dejo este arhivo para que se cargue la carpeta control/validadores/
-En este apartado se encontrarian los validadores back-end de los formularios.
