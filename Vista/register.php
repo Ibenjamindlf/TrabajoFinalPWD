@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>   
     <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/Logo.png" type="image/x-icon">
     <title>Registro</title>
 </head>
@@ -94,14 +95,10 @@
                         <span class="px-3 text-xs text-gray-400">o registrate con</span>
                         <hr class="flex-grow border-gray-200">
                     </div>
-                    <div class="mt-3 grid grid-cols-2 gap-3">
+                    <div class="mt-3">
                         <a href="#" class="flex items-center justify-center gap-2 py-2 border rounded-lg hover:shadow transition">
                             <img src="https://img.icons8.com/color/512/google-logo.png" alt="Google" class="h-5 w-5">
                             <span class="text-sm">Google</span>
-                        </a>
-                        <a href="#" class="flex items-center justify-center gap-2 py-2 border rounded-lg hover:shadow transition">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_de_Facebook.png" alt="Facebook" class="h-5 w-5">
-                            <span class="text-sm">Facebook</span>
                         </a>
                     </div>
                 </div>
@@ -114,7 +111,7 @@
     include_once ('../Vista/structure/footer.php');
 ?>
 
-<script>
+<!--<script>
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('registerForm');
     const name = document.getElementById('name');
@@ -176,6 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!valid) e.preventDefault();
     });
 });
-</script>
+</script>-->
 </body>
 </html>
