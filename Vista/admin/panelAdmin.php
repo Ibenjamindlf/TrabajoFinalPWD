@@ -2,7 +2,12 @@
 include_once("../../Control/ABMProducto.php");
 $abmProducto = new ABMProducto();
 $arrayProductos = $abmProducto->buscar(NULL);
-$cantProductos = count($arrayProductos);
+if ($arrayProductos != null) {
+    $cantProductos = count($arrayProductos);
+} else {
+    $cantProductos = 0;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -69,7 +74,7 @@ $cantProductos = count($arrayProductos);
                     </table>
                 <?php else: ?>
                     <div class="alert alert-info text-center">
-                        No hay usuarios registrados.
+                        No hay Productos registrados.
                     </div>
                 <?php endif; ?>
             </div>
