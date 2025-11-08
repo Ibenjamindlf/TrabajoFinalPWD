@@ -78,8 +78,21 @@ CREATE TABLE compraEstadoTipo (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE compraEstado (
+    id INT NOT NULL AUTO_INCREMENT,
+    idCompra INT NOT NULL,
+    idCET INT NOT NULL,
+    fechaIni TIMESTAMP NOT NULL,
+    fechaFin TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    Foreign Key (idCompra) REFERENCES compra(id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+    Foreign Key (idCET) REFERENCES compraEstadoTipo(id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT
+);
 
-
+/*
+Este create table es provisiorio, en comentarios por modificaciones
 CREATE TABLE compraEstado (
     id INT NOT NULL AUTO_INCREMENT,
     idCompra INT NOT NULL,
@@ -92,3 +105,4 @@ CREATE TABLE compraEstado (
     Foreign Key (idCET) REFERENCES compraEstadoTipo(id)
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+*/
