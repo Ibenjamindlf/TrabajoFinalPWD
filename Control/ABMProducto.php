@@ -1,6 +1,8 @@
 <?php
+include_once(__DIR__ . '/../Modelo/productos.php');
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Modelo/Productos.php';
+// Facu, comente la linea de abajo, ya que la de arriba funciona tambien con DIR, no te quiero modificar la linea 6 por que nose si funciona de la misma forma.
+// include_once $_SERVER['DOCUMENT_ROOT'] . '/Modelo/Productos.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Control/validadores/Validador.php';
 
 class ABMProducto {

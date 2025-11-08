@@ -78,7 +78,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-sm">&copy; 2025 Vinilos truchos. Trabajo Final PWD.</p>
                     <div class="flex items-center space-x-4 mt-4 md:mt-0">
-                        <button class="text-sm bg-orange-800 py-2 px-4 rounded-lg text-white cursor-not-allowed hover:text-black transition duration-300">Panel de Administración</button>
+                        <a href="admin/panelAdmin.php" class="text-sm bg-orange-800 py-2 px-4 rounded-lg text-white hover:text-black transition duration-300">Panel de Administración</a>
                     </div>
                     <div class="flex space-x-4 mt-4 md:mt-0">
                         <a href="#" class="text-sm hover:text-orange-400 transition duration-300">Términos y Condiciones</a>
