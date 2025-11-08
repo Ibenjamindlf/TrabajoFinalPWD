@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/TRABAJO_FINAL/Modelo/conector/database.php';
+include_once ("conector/database.php");
 
 class Producto {
     // Atributos de la clase
@@ -221,9 +221,8 @@ class Producto {
         if ($condicion != "") {
             $sql .= " WHERE " . $condicion;
         }
-        $sql .= " ORDER BY nombre ";
-
-        if ($dataBase->iniciar()) {
+        $sql .= " ORDER BY id ";
+        if ($dataBase->Iniciar()) {
             $res = $dataBase->ejecutar($sql);
             if ($res>-1) {
                 if ($res>0) {
@@ -235,7 +234,7 @@ class Producto {
                 }
             }
         } else {
-            $this->setMensajeOperacion("producto->seleccionar: " . $dataBase->getError());
+            self::setMensajeOperacion("producto->seleccionar: " . $dataBase->getError());
         }
         return $arreglo;
     }
