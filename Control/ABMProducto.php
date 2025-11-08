@@ -1,6 +1,7 @@
 <?php
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Modelo/Productos.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Control/validadores/Validador.php';
 
 class ABMProducto {
 
@@ -11,7 +12,7 @@ class ABMProducto {
         if ($param != null) {
 
             if (isset($param['id'])) {
-                $where .= " and id = " .$param['id'];
+                $where .= " and id = " . $param['id'];
             }
 
             if (isset($param['nombre'])) {
@@ -41,17 +42,19 @@ class ABMProducto {
     private function cargarObjeto($param) {
         $objProducto = null;
 
-        if (array_key_exists('nombre', $param) &&
+        if (
+            array_key_exists('nombre', $param) &&
             array_key_exists('stock', $param) &&
             array_key_exists('precio', $param) &&
             array_key_exists('detalle', $param) &&
-            array_key_exists('imagen', $param)) {
-                
-                $objProducto = new Producto();
-                $objProducto->setear(null, $param['nombre'], $param['stock'], $param['precio'], $param['detalle'], $param['imagen']);
-            }
+            array_key_exists('imagen', $param)
+        ) {
 
-            return $objProducto;
+            $objProducto = new Producto();
+            $objProducto->setear(null, $param['nombre'], $param['stock'], $param['precio'], $param['detalle'], $param['imagen']);
+        }
+
+        return $objProducto;
     }
 
 
@@ -82,7 +85,7 @@ class ABMProducto {
 
 
     // Permite modificar un objeto Producto
-    public function modificacion($param){
+    public function modificacion($param) {
         $resp = false;
 
         $valido = true;
@@ -93,17 +96,20 @@ class ABMProducto {
             $errores[] = "No se ha proporcionado el ID del producto a modificar.";
         }
         
-        if (empty($param['nombre']) || empty($param['detalle']) || empty($param['imagen'])) {
+        if (!Validador::noEstaVacio($param['nombre']) || 
+            !Validador::noEstaVacio($param['detalle']) || 
+            !Validador::noEstaVacio($param['imagen'])) {
+            
             $valido = false;
             $errores[] = "El nombre, detalle e imagen no pueden estar vacíos.";
         }
 
-        if (!is_numeric($param['stock']) || $param['stock'] < 1) {
+        if (!Validador::esStockValido($param['stock'])) {
             $valido = false;
             $errores[] = "El stock debe ser un número mayor o igual a 1.";
         }
 
-        if (!is_numeric($param['precio']) || $param['precio'] <= 0) {
+        if (!Validador::esNumeroPositivo($param['precio'])) {
             $valido = false;
             $errores[] = "El precio debe ser un número positivo.";
         }
@@ -115,13 +121,11 @@ class ABMProducto {
             $errores[] = "Ya existe OTRO producto con ese nombre.";
         }
         
-
         if (!$valido) {
             $_SESSION['errores_abm'] = $errores;
             return false; 
         }
-
-
+        
         $lista = $this->buscar(['id' => $param['id']]);
         $objProducto = $lista[0]; 
                 
@@ -159,49 +163,47 @@ class ABMProducto {
 
 
     // Permite agregar un objeto Producto
-    public function alta($param){
-    $resp = false;
-        
-    $valido = true;
-    $errores = []; 
+    public function alta($param) {
+        $resp = false;
 
-    if (empty($param['nombre']) || empty($param['detalle']) || empty($param['imagen'])) {
-        $valido = false;
-        $errores[] = "El nombre, detalle e imagen no pueden estar vacíos.";
-    }
+        $valido = true;
+        $errores = [];
 
-    if (!is_numeric($param['stock']) || $param['stock'] < 1) {
-        $valido = false;
-        $errores[] = "El stock debe ser un número mayor o igual a 1.";
-    }
-
-    if (!is_numeric($param['precio']) || $param['precio'] <= 0) {
-        $valido = false;
-        $errores[] = "El precio debe ser un número positivo.";
-    }
-
-    if (!$valido) {
-
-        $_SESSION['errores_abm'] = $errores;
-        return false; 
-    }
-
-    $busquedaProducto = ["nombre" => $param["nombre"]];
-    $existeProducto = $this->buscar($busquedaProducto);
-        
-    if ($existeProducto == null) {
-        $objProducto = $this->cargarObjeto($param);
-            
-        if ($objProducto != null && $objProducto->insertar()){
-            $resp = true;
+        if (!Validador::noEstaVacio($param['nombre']) || !Validador::noEstaVacio($param['detalle']) || !Validador::noEstaVacio($param['imagen'])) {
+            $valido = false;
+            $errores[] = "El nombre, detalle e imagen no pueden estar vacíos.";
         }
+
+        if (!Validador::esStockValido($param['stock'])) {
+            $valido = false;
+            $errores[] = "El stock debe ser un número mayor o igual a 1.";
+        }
+
+        if (!Validador::esNumeroPositivo($param['precio'])) {
+            $valido = false;
+            $errores[] = "El precio debe ser un número positivo.";
+        }
+
+        if (!$valido) {
+            $_SESSION['errores_abm'] = $errores;
+            return false;
+        }
+
+        $busquedaProducto = ["nombre" => $param["nombre"]];
+        $existeProducto = $this->buscar($busquedaProducto);
+
+        if ($existeProducto == null) {
+            $objProducto = $this->cargarObjeto($param);
+
+            if ($objProducto != null && $objProducto->insertar()) {
+                $resp = true;
+            }
         } else {
             $_SESSION['errores_abm'] = ["Ya existe un producto con ese nombre."];
         }
-        
+
         return $resp;
     }
-
 }
 
 ?>
