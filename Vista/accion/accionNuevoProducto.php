@@ -1,10 +1,11 @@
 <?php
 include_once ("../../Control/ABMProducto.php");
+include_once ("../../utilidades/funciones.php");
 
-$datos = $_POST;
+// $datos = $_POST;
 $abmProducto = new ABMProducto();
 
-$seRegistro = $abmProducto->alta($datos);
+$seRegistro = $abmProducto->alta(data_submitted());
 
 if ($seRegistro){
     $message = 'Se ingreso correctamente el producto';
