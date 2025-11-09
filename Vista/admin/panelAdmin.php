@@ -58,7 +58,12 @@ if ($arrayProductos != null) {
                                     <td><?php echo $unProducto->getStock(); ?></td>
                                     <td><?php echo $unProducto->getPrecio(); ?></td>
                                     <td><?php echo $unProducto->getDetalle(); ?></td>
-                                    <td><?php echo $unProducto->getImagen(); ?></td>
+                                    <td class="text-center">
+                                        <img src="/TrabajoFinalPWD/<?php echo $unProducto->getImagen(); ?>" 
+                                            alt="<?php echo $unProducto->getNombre(); ?>" 
+                                            style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+                                    </td>
+
                                     <td class="text-center">
                                         <a href="modificarProducto.php?id=<?php echo $unProducto->getId(); ?>" class="btn btn-warning btn-sm mt-2">
                                             Modificar
