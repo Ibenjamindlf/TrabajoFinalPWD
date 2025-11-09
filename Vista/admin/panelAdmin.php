@@ -29,12 +29,15 @@ if ($arrayProductos != null) {
 <main class="bg-light mt-5 py-20">
     <div class="container mt-5">
         <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white text-center">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">Productos Registrados</h4>
+                <a href="nuevoProducto.php" class="btn btn-success btn-sm fw-bold">
+                    + Agregar Producto
+                </a>
             </div>
 
             <div class="card-body">
-                <?php if ($cantProductos > 0):?>
+                <?php if ($cantProductos > 0): ?>
                     <table class="table table-striped table-bordered align-middle">
                         <thead class="table-dark text-center">
                             <tr>
@@ -54,17 +57,13 @@ if ($arrayProductos != null) {
                                     <td><?php echo $unProducto->getNombre(); ?></td>
                                     <td><?php echo $unProducto->getStock(); ?></td>
                                     <td><?php echo $unProducto->getPrecio(); ?></td>
-                                    <td><?php echo $unProducto->getdetalle(); ?></td>
-                                    <td><?php echo $unProducto->getimagen(); ?></td>
+                                    <td><?php echo $unProducto->getDetalle(); ?></td>
+                                    <td><?php echo $unProducto->getImagen(); ?></td>
                                     <td class="text-center">
-                                        <!-- Botón Actualizar -->
-                                        <a href="#"
-                                        class="btn btn-warning btn-sm mt-2">
+                                        <a href="modificarProducto.php?id=<?php echo $unProducto->getId(); ?>" class="btn btn-warning btn-sm mt-2">
                                             Modificar
                                         </a>
-                                        <!-- Botón Eliminar -->
-                                        <a href="#"
-                                        class="btn btn-danger btn-sm mt-2">
+                                        <a href="../accion/accionEliminarProducto.php?id=<?php echo $unProducto->getId(); ?>" class="btn btn-danger btn-sm mt-2">
                                             Eliminar
                                         </a>
                                     </td>
@@ -74,12 +73,13 @@ if ($arrayProductos != null) {
                     </table>
                 <?php else: ?>
                     <div class="alert alert-info text-center">
-                        No hay Productos registrados.
+                        No hay productos registrados.
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
+
 
     <!-- Bootstrap JS -->
     <script 
