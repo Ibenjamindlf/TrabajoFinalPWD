@@ -1,11 +1,12 @@
 <?php
 include_once ("../../Control/abmProducto.php");
+include_once ("../../utilidades/funciones.php");
 
-$datos = $_POST;
+// $datos = $_POST;
 $abmProducto = new ABMProducto();
 
-print_r($datos);
-$seModifico = $abmProducto->modificacion($datos);
+// print_r($datos);
+$seModifico = $abmProducto->modificacion(data_submitted());
 
 
 if ($seModifico){
