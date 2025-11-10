@@ -46,7 +46,9 @@ if ($arrayProductos != null) {
                                     <?php echo $unProducto->getDetalle(); ?>
                                 </p>
                             </div>
-                            
+                            <div class="mt-4 text-sm text-gray-700">
+                                <?php echo number_format($unProducto->getStock(), 0) ?> unidades disponibles
+                            </div>
                             <div class="mt-4">
                                 <p class="font-bold text-orange-600 mb-2">
                                     $<?php echo number_format($unProducto->getPrecio(), 2, ',', '.'); ?>
@@ -59,8 +61,9 @@ if ($arrayProductos != null) {
                         </div>
                     </div>
                 <?php } ?>
-            <?php else: ?>
-                <?php endif; ?>
+            <?php elseif ($cantProductos <= 0): ?>
+                <div class="flex justify-center items-center text-center grid col-span-4 mt-12 mb-12"><p class="font-bold uppercase">No hay productos disponibles.</p/></div>
+            <?php endif; ?>
         </div>
     </div>
 </main>
