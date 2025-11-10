@@ -1,3 +1,13 @@
+<?php
+include_once("../Control/ABMProducto.php");
+$abmProducto = new ABMProducto();
+$arrayProductos = $abmProducto->buscar(NULL);
+if ($arrayProductos != null) {
+    $cantProductos = count($arrayProductos);
+} else {
+    $cantProductos = 0;
+}
+?>s
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,145 +15,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
     <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/logo.png" type="image/x-icon">
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+    >
     <title>Tienda</title>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-50">
 <?php
     include_once ('../Vista/structure/header.php');
 ?>
-<main class="flex-grow">
-    <section class="max-w-7xl mx-auto px-4 py-12">
-        <h1 class="text-3xl font-semibold text-gray-800 mb-8 text-center">Productos Destacados</h1>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Product 1 -->
-            <div class="bg-white rounded-xl shadow p-4 flex flex-col">
-                <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 1" class="w-full h-40 object-cover rounded-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">Producto 1</h2>
-                <p class="text-orange-600 font-bold mt-1">$12.499</p>
-                <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 1.</p>
-                <div class="mt-4 flex gap-2">
-                    <button data-product="1" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
-                    <button data-add="1" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="bg-white rounded-xl shadow p-4 flex flex-col">
-                <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 2" class="w-full h-40 object-cover rounded-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">Producto 2</h2>
-                <p class="text-orange-600 font-bold mt-1">$8.299</p>
-                <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 2.</p>
-                <div class="mt-4 flex gap-2">
-                    <button data-product="2" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
-                    <button data-add="2" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="bg-white rounded-xl shadow p-4 flex flex-col">
-                <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 3" class="w-full h-40 object-cover rounded-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">Producto 3</h2>
-                <p class="text-orange-600 font-bold mt-1">$6.750</p>
-                <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 3.</p>
-                <div class="mt-4 flex gap-2">
-                    <button data-product="3" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
-                    <button data-add="3" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="bg-white rounded-xl shadow p-4 flex flex-col">
-                <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="Producto 4" class="w-full h-40 object-cover rounded-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">Producto 4</h2>
-                <p class="text-orange-600 font-bold mt-1">$2.199</p>
-                <p class="text-sm text-gray-500 mt-2 flex-grow">Descripción del producto 4.</p>
-                <div class="mt-4 flex gap-2">
-                    <button data-product="4" class="view-product w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
-                    <button data-add="4" class="add-cart w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modals (one per product) -->
-    <div id="modals-container" aria-hidden="true">
-        <div id="modal-1" class="product-modal fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div class="bg-white rounded-lg max-w-2xl w-full overflow-y-auto relative" style="max-height: calc(100vh - 4rem);">
-                <button class="modal-close absolute top-3 right-3 text-gray-600 hover:text-gray-800">&times;</button>
-                <div class="md:flex">
-                    <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
-                    <div class="p-6 md:w-1/2">
-                        <h3 class="text-2xl font-semibold">Producto 1</h3>
-                        <p class="text-orange-600 font-bold mt-2">$12.499</p>
-                        <p class="text-gray-600 mt-4">Descripción del producto 1.</p>
-                        <div class="mt-6 flex gap-2">
-                            <button data-add="1" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
-                            <button class="modal-close bg-gray-100 py-2 px-4 rounded-lg hover:bg-gray-200 transition">Cerrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<main class="bg-light py-5">
+    <div class="container mt-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary">Nuestros Productos</h2>
+            <p class="text-muted">Explorá nuestros productos destacados</p>
         </div>
 
-        <div id="modal-2" class="product-modal fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div class="bg-white rounded-lg max-w-2xl w-full overflow-y-auto relative" style="max-height: calc(100vh - 4rem);">
-                <button class="modal-close absolute top-3 right-3 text-gray-600 hover:text-gray-800">&times;</button>
-                <div class="md:flex">
-                    <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
-                    <div class="p-6 md:w-1/2">
-                        <h3 class="text-2xl font-semibold">Producto 2</h3>
-                        <p class="text-orange-600 font-bold mt-2">$8.299</p>
-                        <p class="text-gray-600 mt-4">Descripción del producto 2.</p>
-                        <div class="mt-6 flex gap-2">
-                            <button data-add="2" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
-                            <button class="modal-close bg-gray-100 py-2 px-4 rounded-lg hover:bg-gray-200 transition">Cerrar</button>
+        <div class="row g-4">
+            <?php if ($cantProductos > 0): ?>
+                <?php foreach ($arrayProductos as $unProducto) { ?>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img src="/TrabajoFinalPWD/<?php echo $unProducto->getImagen(); ?>" 
+                                 class="card-img-top" 
+                                 alt="<?php echo $unProducto->getNombre(); ?>" 
+                                 style="height: 220px; object-fit: cover; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                            
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5 class="card-title fw-semibold text-dark">
+                                        <?php echo $unProducto->getNombre(); ?>
+                                    </h5>
+                                    <p class="card-text text-muted small">
+                                        <?php echo $unProducto->getDetalle(); ?>
+                                    </p>
+                                </div>
+                                <div class="mt-3">
+                                    <p class="fw-bold text-success mb-2">
+                                        $<?php echo number_format($unProducto->getPrecio(), 2, ',', '.'); ?>
+                                    </p>
+                                    <!-- <a href="verProducto.php?id=<?php echo $unProducto->getId(); ?>" 
+                                       class="btn btn-primary w-100 fw-semibold">
+                                        Ver más
+                                    </a> -->
+                                </div>
+                            </div>
                         </div>
                     </div>
+                <?php } ?>
+            <?php else: ?>
+                <div class="alert alert-info text-center">
+                    No hay productos disponibles por el momento.
                 </div>
-            </div>
-        </div>
-
-        <div id="modal-3" class="product-modal fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div class="bg-white rounded-lg max-w-2xl w-full overflow-y-auto relative" style="max-height: calc(100vh - 4rem);">
-                <button class="modal-close absolute top-3 right-3 text-gray-600 hover:text-gray-800">&times;</button>
-                <div class="md:flex">
-                    <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
-                    <div class="p-6 md:w-1/2">
-                        <h3 class="text-2xl font-semibold">Producto 3</h3>
-                        <p class="text-orange-600 font-bold mt-2">$6.750</p>
-                        <p class="text-gray-600 mt-4">Descripción del producto 3.</p>
-                        <div class="mt-6 flex gap-2">
-                            <button data-add="3" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
-                            <button class="modal-close bg-gray-100 py-2 px-4 rounded-lg hover:bg-gray-200 transition">Cerrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="modal-4" class="product-modal fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div class="bg-white rounded-lg max-w-2xl w-full overflow-y-auto relative" style="max-height: calc(100vh - 4rem);">
-                <button class="modal-close absolute top-3 right-3 text-gray-600 hover:text-gray-800">&times;</button>
-                <div class="md:flex">
-                    <img src="https://avatars.githubusercontent.com/u/68124872?v=4" alt="" class="w-full md:w-1/2 h-64 object-cover">
-                    <div class="p-6 md:w-1/2">
-                        <h3 class="text-2xl font-semibold">Producto 4</h3>
-                        <p class="text-orange-600 font-bold mt-2">$2.199</p>
-                        <p class="text-gray-600 mt-4">Descripción del producto 4.</p>
-                        <div class="mt-6 flex gap-2">
-                            <button data-add="4" class="modal-add bg-gray-900 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">Agregar al carrito</button>
-                            <button class="modal-close bg-gray-100 py-2 px-4 rounded-lg hover:bg-gray-200 transition">Cerrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 
-    <!-- Toast container -->
-    <div id="toast-container" class="fixed right-4 bottom-4 z-60 space-y-2"></div>
+    <!-- Bootstrap JS -->
+    <script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
 </main>
+
 
 <?php
     include_once ('../Vista/structure/footer.php');

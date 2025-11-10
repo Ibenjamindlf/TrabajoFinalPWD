@@ -50,7 +50,7 @@ if ($id) {
 
             <div class="card-body">
                 <?php if ($producto): ?>
-                    <form action="../accion/accionModificarProducto.php" method="POST">
+                    <form action="../accion/accionModificarProducto.php" method="POST" enctype="multipart/form-data">>
 
                         <!-- ID Usuario -->
                         <div class="mb-3">
@@ -117,15 +117,15 @@ if ($id) {
                             >
                         </div>
 
+                        <!-- Imagen -->
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen del producto</label>
                             <input 
-                                type="text" 
+                                type="file" 
                                 class="form-control" 
                                 id="imagen" 
-                                name="imagen" 
-                                value="<?php echo $producto->getimagen(); ?>" 
-                                required
+                                name="imagen"
+                                accept=".jpg,.jpeg,.png"
                             >
                         </div>
 

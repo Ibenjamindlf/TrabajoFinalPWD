@@ -23,7 +23,7 @@
             </div>
 
             <div class="card-body">
-                    <form action="../accion/accionNuevoProducto.php" method="POST">
+                    <form action="../accion/accionNuevoProducto.php" method="POST" enctype="multipart/form-data">
 
                         <!-- Nombre -->
                         <div class="mb-3">
@@ -81,11 +81,11 @@
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen del producto</label>
                             <input 
-                                type="text" 
+                                type="file" 
                                 class="form-control" 
                                 id="imagen" 
                                 name="imagen" 
-                                placeholder="Ingrese la imagen del producto"
+                                accept=".jpg,.jpeg,.png"
                                 required
                             >
                         </div>

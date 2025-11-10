@@ -16,7 +16,8 @@ function data_submitted()
     }
     if (count($requestData)) {
         foreach ($requestData as $indice => $valor) {
-            if ($valor === "") {
+            // Evitamos alterar arrays (como los de $_FILES)
+            if (!is_array($valor) && $valor === "") {
                 $requestData[$indice] = 'null';
             }
         }
