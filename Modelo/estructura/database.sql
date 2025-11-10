@@ -106,3 +106,11 @@ CREATE TABLE compraEstado (
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 */
+
+INSERT INTO `producto`(`nombre`, `stock`, `precio`, `detalle`, `imagen`) 
+VALUES 
+('CIRO Y LOS PERSAS / NARANJA PERSA','50','850','1.Amor Prohibido. 2.Luz. 3.Juira!. 4.La rosa. 5.Hoy te vas. Interprete: Ciro y los persas','Vista/sources/img/ciro-y-los-persas-naranja-persa.jpg'),
+('PESCADO RABIOSO / LO MEJOR DE PESCADO RABIOSO (LP)','50','864','1.Post-crucifixion. 2.Cementerio club. 3.corto. 4.despierta nena. 5.nena boba. Interprete: Pescado rabioso','Vista/sources/img/pescado-rabioso-lo-mejor.jpg'),
+('LOS GATOS / EN VIVO','50','6000','1.Mama rock. 2.Mujer de carbon. 3.Blues de la calle 23. 4.Cancion para un ladron. 5.Campo para tres. Interprete: Los gatos','Vista/sources/img/los-gatos-en-vivo.jpg'),
+('PESCADO RABIOSO / ARTAUD','50','78200','1.Por. 2.Todas las hojas son viento. 3.Cementerio Club. 4.Bajan. 5.La cantata de puentes amarillos. Interprete: Pescado rabioso','Vista/sources/img/pescado-rabioso.jpg'),
+('GUSTAVO CERATI – SIEMPRE ES HOY (LP Doble)','50','55000','1.Artefacto. 2.Naci para esto. 3.Casa. 4.Torre de Marfil. 5.Especie. Interprete: Gustavo Cerati','Vista/sources/img/gustavo-cerati-siempre-es-hoy.jpg');
