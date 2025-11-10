@@ -15,75 +15,64 @@ if ($arrayProductos != null) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
     <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/logo.png" type="image/x-icon">
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-        rel="stylesheet"
-    >
     <title>Tienda</title>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-50">
 <?php
     include_once ('../Vista/structure/header.php');
 ?>
-<main class="bg-light py-5">
-    <div class="container mt-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold text-primary">Nuestros Productos</h2>
-            <p class="text-muted">Explorá nuestros productos destacados</p>
+<main class="flex-grow bg-gray-100 py-12">
+    <div class="container mx-auto mt-12 px-4"> <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">Nuestros Productos</h2>
+            <p class="text-gray-600 mt-2">Explorá nuestros productos destacados</p>
         </div>
 
-        <div class="row g-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <?php if ($cantProductos > 0): ?>
                 <?php foreach ($arrayProductos as $unProducto) { ?>
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="/TrabajoFinalPWD/<?php echo $unProducto->getImagen(); ?>" 
-                                 class="card-img-top" 
-                                 alt="<?php echo $unProducto->getNombre(); ?>" 
-                                 style="height: 220px; object-fit: cover; border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
-                            
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <div>
-                                    <h5 class="card-title fw-semibold text-dark">
-                                        <?php echo $unProducto->getNombre(); ?>
-                                    </h5>
-                                    <p class="card-text text-muted small">
-                                        <?php echo $unProducto->getDetalle(); ?>
-                                    </p>
-                                </div>
-                                <div class="mt-3">
-                                    <p class="fw-bold text-success mb-2">
-                                        $<?php echo number_format($unProducto->getPrecio(), 2, ',', '.'); ?>
-                                    </p>
-                                    <!-- <a href="verProducto.php?id=<?php echo $unProducto->getId(); ?>" 
-                                       class="btn btn-primary w-100 fw-semibold">
-                                        Ver más
-                                    </a> -->
+                    
+                    <div class="bg-white rounded-lg overflow-hidden h-full shadow-sm border-0 flex flex-col">
+                        
+                        <img src="/TrabajoFinalPWD/<?php echo $unProducto->getImagen(); ?>" 
+                             alt="<?php echo $unProducto->getNombre(); ?>" 
+                             class="w-full h-[220px] object-cover">
+                        
+                        <div class="p-4 flex flex-col justify-between flex-grow">
+                            <div>
+                                <h5 class="text-xl font-semibold text-gray-900 mb-2">
+                                    <?php echo $unProducto->getNombre(); ?>
+                                </h5>
+                                <p class="text-sm text-gray-500">
+                                    <?php echo $unProducto->getDetalle(); ?>
+                                </p>
+                            </div>
+                            <div class="mt-4 text-sm text-gray-700">
+                                <?php echo number_format($unProducto->getStock(), 0) ?> unidades disponibles
+                            </div>
+                            <div class="mt-4">
+                                <p class="font-bold text-orange-600 mb-2">
+                                    $<?php echo number_format($unProducto->getPrecio(), 2, ',', '.'); ?>
+                                </p>
+                                <div class="flex gap-2">
+                                <button data-product="2" class="w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
+                                <button data-add="2" class="w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <?php } ?>
-            <?php else: ?>
-                <div class="alert alert-info text-center">
-                    No hay productos disponibles por el momento.
-                </div>
+            <?php elseif ($cantProductos <= 0): ?>
+                <div class="flex justify-center items-center text-center grid col-span-4 mt-12 mb-12"><p class="font-bold uppercase">No hay productos disponibles.</p/></div>
             <?php endif; ?>
         </div>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script 
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
 </main>
-
 
 <?php
     include_once ('../Vista/structure/footer.php');
 ?>
 
-<script>
+<!-- <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Mapa de datos de los 4 productos (usado para guardar en localStorage)
     const products = {
@@ -175,6 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // custom event from writeCart
     window.addEventListener('cartUpdated', updateHeaderCount);
 });
-</script>
+</script> -->
 </body>
 </html>
