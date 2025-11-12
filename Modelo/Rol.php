@@ -183,7 +183,7 @@ class Rol {
                 }
             }
         } else {
-            self::setMensajeOperacion("producto->seleccionar: " . $dataBase->getError());
+            self::setMensajeOperacion("rol->seleccionar: " . $base->getError());
         }
         return $arreglo;
     }
