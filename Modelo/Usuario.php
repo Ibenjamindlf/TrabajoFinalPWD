@@ -89,7 +89,7 @@ class Usuario {
      */
     public function cargar() {
         $resp = false;
-        $base = new Database();
+        $base = new database();
         $id = $this->getId();
         $sql = "SELECT * FROM usuario WHERE id = " . $id;
         if ($base->Iniciar()) {
@@ -114,7 +114,7 @@ class Usuario {
      */
     public function insertar() {
         $resp = false;
-        $base = new Database();
+        $base = new database();
         $nombre = $this->getNombre();
         $password = $this->getPassword();
         $mail = $this->getMail();
@@ -140,7 +140,7 @@ class Usuario {
      */
     public function modificar() {
         $resp = false;
-        $base = new Database();
+        $base = new database();
         $id = $this->getId();
         $nombre = $this->getNombre();
         $password = $this->getPassword();
@@ -172,7 +172,7 @@ class Usuario {
      */
     public function estado($param = "") {
         $resp = false;
-        $base = new Database();
+        $base = new database();
         $id = $this->getId();
         $sql = "UPDATE usuario SET deshabilitado = '$param' WHERE id = $id";
         if ($base->Iniciar()) {
@@ -195,7 +195,7 @@ class Usuario {
      */
     public function eliminar() {
         $resp = false;
-        $base = new Database();
+        $base = new database();
         $id = $this->getId();
         $sql = "DELETE FROM usuario WHERE id = $id";
         if ($base->Iniciar()) {
@@ -218,7 +218,7 @@ class Usuario {
      */
     public static function seleccionar($condicion = "") {
         $arreglo = array();
-        $base = new Database();
+        $base = new database();
         $sql = "SELECT * FROM usuario";
         if ($condicion != "") {
             $sql .= " WHERE " . $condicion;
@@ -236,7 +236,7 @@ class Usuario {
                 }
             }
         } else {
-            self::setMensajeOperacion("producto->seleccionar: " . $dataBase->getError());
+            self::setMensajeOperacion("usuario->seleccionar: " . $base->getError());
         }
         return $arreglo;
     }

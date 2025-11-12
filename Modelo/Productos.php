@@ -98,7 +98,7 @@ class Producto {
     public function cargar(){
         $resp = false;
         $dataBase = new dataBase();
-        $sql = "SELECT * FROM auto WHERE id = ".$this->getid(); 
+        $sql = "SELECT * FROM producto WHERE id = ".$this->getid(); 
         if ($dataBase->iniciar()) {
             $res = $dataBase->ejecutar($sql);
             if ($res>-1) {
