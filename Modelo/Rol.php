@@ -113,28 +113,7 @@ class Rol {
         return $resp;
     }
 
-    /**
-     * Modulo estado
-     * (funcion encargada de actualizar el estado del borrado logico = cuando stock llegue a 0)
-     * @param string|null $param
-     * @return bool
-     */
-    public function estado($param = "") {
-        $resp = false;
-        $base = new database();
-        $sql = "UPDATE rol SET descripcion = '" . $param . "' WHERE id = " . $this->getId();
-        
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
-                $resp = true;
-            } else {
-                $this->setMensajeOperacion("Rol->estado: " . $base->getError());
-            }
-        } else {
-            $this->setMensajeOperacion("Rol->estado: " . $base->getError());
-        }
-        return $resp;
-    }
+    // en esta clase no hay metodo estado debido a que no puede estar deshabilitada una relacion usuario-rol
 
     /**
      * Modulo eliminar
