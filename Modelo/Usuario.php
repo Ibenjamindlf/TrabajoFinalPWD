@@ -236,7 +236,7 @@ class Usuario {
                 }
             }
         } else {
-            self::setMensajeOperacion("producto->seleccionar: " . $dataBase->getError());
+            self::setMensajeOperacion("usuario->seleccionar: " . $base->getError());
         }
         return $arreglo;
     }
