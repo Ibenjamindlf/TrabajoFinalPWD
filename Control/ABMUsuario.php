@@ -128,7 +128,6 @@ class ABMUsuario {
         $valido = true;
         $errores = [];
 
-        // 1. Validaciones
         if (!$this->seteadosCamposClaves($param)) {
             $valido = false;
             $errores[] = "No se proveyó el ID de usuario.";
@@ -156,7 +155,6 @@ class ABMUsuario {
         if (count($lista) > 0) {
             $objUsuario = $lista[0];
             
-            // 3. Seteamos los nuevos datos
             $objUsuario->setNombre($param['nombre']);
             $objUsuario->setMail($param['mail']);
 
