@@ -1,1 +1,8 @@
 .vscode/
+
+# Dependencias de PHP (Composer)
+/vendor
+
+# Archivos de caché, logs, etc., que tampoco deberían subirse
+includes/.env
+/storage/*.log
