@@ -91,6 +91,33 @@ CREATE TABLE compraEstado (
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
+/*BLOQUE 4
+menu*/
+
+CREATE TABLE menu(
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(250) NOT NULL,
+    link VARCHAR(250) NOT NULL,
+    idPadre INT,
+    deshabilitado TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    Foreign Key (idPadre) REFERENCES menu(id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT 
+);
+CREATE TABLE menuRol(
+    id INT NOT NULL AUTO_INCREMENT,
+    idMenu INT,
+    idRol INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (idMenu) REFERENCES menu(id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (idRol) REFERENCES rol(id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+
+
 /*
 Este create table es provisiorio, en comentarios por modificaciones
 CREATE TABLE compraEstado (
