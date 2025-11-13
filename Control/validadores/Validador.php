@@ -16,6 +16,16 @@ class Validador {
     public static function esStockValido($valor) {
         return (is_numeric($valor) && $valor >= 1);
     }
+
+    // Verifica que un email tenga formato válido
+    public static function esEmailValido($email) {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    // Verifica que la contraseña tenga un mínimo de 8 caracteres
+    public static function esPasswordSegura($pass) {
+        return strlen($pass) >= 8;
+    }
 }
 
 ?>
