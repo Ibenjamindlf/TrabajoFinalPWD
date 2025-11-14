@@ -134,6 +134,22 @@ CREATE TABLE compraEstado (
 );
 */
 
+/** Inserta los tipos de estado de compra*/
+INSERT INTO compraEstadoTipo (id, descripcion, detalle) VALUES 
+(1, 'CARRITO', 'Compra en proceso, no finalizada por el usuario.'),
+(2, 'PENDIENTE_PAGO', 'A la espera de confirmación de pago.'),
+(3, 'PAGO_ACEPTADO', 'Pago confirmado y recibido.'),
+(4, 'PAGO_RECHAZADO', 'Pago rechazado por la pasarela.'),
+(5, 'PREPARACION', 'El pedido se está preparando para su envío.'),
+(6, 'ENVIADO', 'El pedido fue entregado al transportista.'),
+(7, 'ENTREGADO', 'El cliente ha recibido su pedido.'),
+(8, 'CANCELADO', 'El pedido ha sido cancelado.'),
+(9, 'FALLA_ENTREGA', 'El transportista no pudo completar la entrega.'),
+(10, 'DEVUELTO', 'El cliente ha solicitado y completado una devolución.');
+
+/**Para continuar la numeración automática si no usas los IDs sugeridos, 
+ usa AUTO_INCREMENT, pero para el ejemplo, forzamos los IDs para claridad.*/
+
 INSERT INTO `producto`(`nombre`, `stock`, `precio`, `detalle`, `imagen`) 
 VALUES 
 ('CIRO Y LOS PERSAS / NARANJA PERSA','50','850','1.Amor Prohibido. 2.Luz. 3.Juira!. 4.La rosa. 5.Hoy te vas. Interprete: Ciro y los persas','Vista/sources/img/ciro-y-los-persas-naranja-persa.jpg'),
