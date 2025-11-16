@@ -63,7 +63,7 @@ class MenuRol {
     public function cargar() {
         $resp = false;
         $base = new database();
-        $sql = "SELECT * FROM menuroles WHERE id = " . $this->getId();
+        $sql = "SELECT * FROM menurol WHERE id = " . $this->getId();
         if ($base->Iniciar()) {
             $res = $base->Ejecutar($sql);
             if ($res > -1) {
@@ -87,7 +87,7 @@ class MenuRol {
     public function insertar() {
         $resp = false;
         $base = new database();
-        $sql = "INSERT INTO menuroles(idMenu, idRol) VALUES (" . $this->getIdMenu() . ", " . $this->getIdRol() . ")";
+        $sql = "INSERT INTO menurol(idMenu, idRol) VALUES (" . $this->getIdMenu() . ", " . $this->getIdRol() . ")";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) > 0) {
                 $resp = true;
@@ -106,7 +106,7 @@ class MenuRol {
     public function modificar() {
         $resp = false;
         $base = new database();
-        $sql = "UPDATE menuroles SET 
+        $sql = "UPDATE menurol SET 
             idMenu = " . $this->getIdMenu() . ",
             idRol = " . $this->getIdRol() . " 
         WHERE id = " . $this->getId();
@@ -130,7 +130,7 @@ class MenuRol {
     public function eliminar() {
         $resp = false;
         $base = new database();
-        $sql = "DELETE FROM menuroles WHERE id = " . $this->getId();
+        $sql = "DELETE FROM menurol WHERE id = " . $this->getId();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) > 0) {
                 $resp = true;
@@ -152,7 +152,7 @@ class MenuRol {
     public static function seleccionar($condicion = "") {
         $arreglo = array();
         $base = new database();
-        $sql = "SELECT * FROM menuroles";
+        $sql = "SELECT * FROM menurol";
         if ($condicion != "") {
             $sql .= " WHERE " . $condicion;
         }
