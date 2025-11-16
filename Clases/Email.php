@@ -30,7 +30,7 @@ class Email
         $mail->Username = $_ENV['EMAIL_USER'];
         $mail->Password = $_ENV['EMAIL_PASS'];
         
-        $mail->setFrom('tienda@tienda.com', 'NombreDeTuTienda'); 
+        $mail->setFrom('vinilostruchos@tienda.com', 'VinilosTruchos'); 
 
         $mail->isHTML(TRUE);
         $mail->CharSet = 'UTF-8';
@@ -47,8 +47,8 @@ class Email
             
             $mail->Subject = 'Confirma tu Cuenta';
             $contenido = "<html>";
-            $contenido .= "<p><strong>Hola " . htmlspecialchars($this->nombre) . "</strong> Has Creado tu Cuenta en Tienda, solo debes confirmarla presionando en el siguiente enlace:</p>";
-            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/confirmar-cuenta?token=" . $this->token . "'>Confirmar Cuenta</a></p>";
+            $contenido .= "<p><strong>Hola " . htmlspecialchars($this->nombre) . "</strong> Has Creado tu Cuenta en Vinilos Truchos, solo debes confirmarla presionando en el siguiente enlace:</p>";
+            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/auth/confirmarCuenta.php?token=" . $this->token . "'>Confirmar Cuenta</a></p>";
             $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes ignorar el mensaje</p>";
             $contenido .= "</html>";
             $mail->Body = $contenido;
@@ -74,7 +74,7 @@ class Email
             $mail->Subject = 'Reestablece tu Password';
             $contenido = "<html>";
             $contenido .= "<p><strong>Hola " . htmlspecialchars($this->nombre) . "</strong> Has solicitado reestablecer tu password, sigue el siguiente enlace para hacerlo. </p>";
-            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/recuperar?token=" . $this->token . "'>Reestablecer Password</a></p>";
+            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/recuperarPass.php?token=" . $this->token . "'>Reestablecer Password</a></p>";
             $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes ignorar el mensaje</p>";
             $contenido .= "</html>";
             $mail->Body = $contenido;
