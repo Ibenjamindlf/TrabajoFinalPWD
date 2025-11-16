@@ -19,9 +19,10 @@
                 <h4 class="text-xl font-semibold mb-0">Ingresar Producto</h4>
             </div>
 
-            <div class="p-6"> <form action="../accion/accionNuevoProducto.php" method="POST" enctype="multipart/form-data">
+            <div class="p-6"> 
+                <form action="../accion/accionNuevoProducto.php" method="POST" enctype="multipart/form-data" id="formProducto" >
 
-                    <div class="mb-4">
+                    <div class="mb-4"> 
                         <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre del producto</label>
                         <input 
                             type="text" 
@@ -29,8 +30,9 @@
                             id="nombre" 
                             name="nombre" 
                             placeholder="Ingrese el nombre del producto"
-                            required
                         >
+
+                        <p id="errorNombre" class="text-sm mt-1"></p>
                     </div>
 
                     <div class="mb-4">
@@ -41,20 +43,20 @@
                             id="stock" 
                             name="stock" 
                             placeholder="Ingrese el stock del producto"
-                            required
                         >
+                        <p id="errorStock" class="text-sm mt-1"></p>
                     </div>
 
                     <div class="mb-4">
                         <label for="precio" class="block text-sm font-medium text-gray-700 mb-1">Precio del Producto</label>
                         <input 
-                            type="number" 
+                            type="text" 
                             class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500" 
                             id="precio" 
                             name="precio" 
                             placeholder="Ingrese el precio del producto"
-                            required
                         >
+                        <p id="errorPrecio" class="text-sm mt-1"></p>
                     </div>
 
                     <div class="mb-4">
@@ -65,8 +67,8 @@
                             id="detalle" 
                             name="detalle" 
                             placeholder="Ingrese el detalle del producto"
-                            required
                         >
+                        <p id="errorDetalle" class="text-sm mt-1"></p>
                     </div>
 
                     <div class="mb-4">
@@ -80,8 +82,8 @@
             id="imagen" 
             name="imagen" 
             accept=".jpg,.jpeg,.png"
-            required
         >
+        <p id="errorImagen" class="text-sm mt-1"></p>
                     </div>
 
                     <div class="flex justify-between mt-6">
@@ -100,6 +102,8 @@
     <?php
         include_once ('../structure/footer.php');
     ?>
+    <script src="../sources/js/validadores.js"></script>
+    <script src="../sources/js/validadorNuevoProducto.js"></script>
 </body>
 </html>
 
