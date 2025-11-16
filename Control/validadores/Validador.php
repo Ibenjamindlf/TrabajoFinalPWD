@@ -4,7 +4,7 @@ class Validador {
 
     // Verifica que un valor no esté vacío
     public static function noEstaVacio($valor) {
-        return !empty($valor);
+        return !empty($valor) && $valor !== 'null';
     }
 
     // Verifica que un valor sea un número y mayor que cero
