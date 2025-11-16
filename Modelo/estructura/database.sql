@@ -21,6 +21,8 @@ CREATE TABLE usuario (
     nombre VARCHAR(50) NOT NULL,
     password VARCHAR(250) NOT NULL,
     mail VARCHAR(250) NOT NULL UNIQUE,
+    token VARCHAR(100) NULL,
+    confirmado INT(1) NOT NULL DEFAULT 0,
     deshabilitado TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (id)
 );
