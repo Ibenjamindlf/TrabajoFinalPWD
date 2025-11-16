@@ -29,7 +29,7 @@
                 <p class="text-sm text-gray-500 mt-1">Accedé a tu cuenta para poder comprar</p>
             </div>
 
-            <form id="loginForm" class="p-6 space-y-4" action="/TrabajoFinalPWD/auth/login.php" method="post" novalidate>
+            <form id="loginForm" class="p-6 space-y-4" action="#" method="post" novalidate>
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input id="email" name="email" type="email" required
@@ -56,7 +56,7 @@
                         <input type="checkbox" name="remember" class="form-checkbox h-4 w-4">
                         <span class="ml-2">Recordarme</span>
                     </label>
-                    <a href="#" class="text-sm text-orange-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                    <a href="/TrabajoFinalPWD/Vista/auth/recuperarPass.php" class="text-sm text-orange-600 hover:underline">¿Olvidaste tu contraseña?</a>
                 </div>
 
                 <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg font-medium hover:bg-orange-700 transition">
