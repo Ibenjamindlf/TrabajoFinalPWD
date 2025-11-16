@@ -6,6 +6,8 @@ class Usuario {
     private $nombre;
     private $password;
     private $mail;
+    private $token;
+    private $confirmado;
     private $deshabilitado;
     private $mensajeOperacion; 
 
@@ -15,6 +17,8 @@ class Usuario {
         $this->nombre = "";
         $this->password = "";
         $this->mail = "";
+        $this->token = "";
+        $this->confirmado = "";
         $this->deshabilitado = "";
         $this->mensajeOperacion = "";
     }
@@ -31,6 +35,12 @@ class Usuario {
     }
     public function getMail() {
         return $this->mail;
+    }
+    public function getToken() {
+        return $this->token;
+    }
+    public function getConfirmado() {
+        return $this->confirmado;
     }
     public function getDeshabilitado() {
         return $this->deshabilitado;
@@ -52,6 +62,12 @@ class Usuario {
     public function setMail($mail) {
         $this->mail = $mail;
     }
+    public function setToken($token) {
+        $this->token = $token;
+    }
+    public function setConfirmado($confirmado) {
+        $this->confirmado = $confirmado;
+    }
     public function setDeshabilitado($deshabilitado) {
         $this->deshabilitado = $deshabilitado;
     }
@@ -60,11 +76,13 @@ class Usuario {
     }
 
     //funcion para setear todos los atributos de la clase
-    public function setear($id, $nombre, $password, $mail, $deshabilitado) {
+    public function setear($id, $nombre, $password, $mail, $token, $confirmado, $deshabilitado) {
         $this->setId($id);
         $this->setNombre($nombre);
         $this->setPassword($password);
         $this->setMail($mail);
+        $this->setToken($token);
+        $this->setConfirmado($confirmado);
         $this->setDeshabilitado($deshabilitado);
     }
 
@@ -74,10 +92,14 @@ class Usuario {
         $id = $this->getId();
         $nombre = $this->getNombre();
         $mail = $this->getMail();
+        $token = $this->getToken();
+        $confirmado = $this->getConfirmado();
         $deshabilitado = $this->getDeshabilitado();
         return "ID: $id, 
         Nombre: $nombre, 
-        Mail: $mail, 
+        Mail: $mail,
+        Token: $token, 
+        Confirmado: $confirmado, 
         Deshabilitado: $deshabilitado";
     }
 
@@ -97,7 +119,7 @@ class Usuario {
             if ($res > -1) {
                 if ($res > 0) {
                     $row = $base->Registro();
-                    $this->setear($row['id'], $row['nombre'], $row['password'], $row['mail'], $row['deshabilitado']);
+                    $this->setear($row['id'], $row['nombre'], $row['password'], $row['mail'], $row['token'], $row['confirmado'], $row['deshabilitado']);
                     $resp = true;
                 }
             }
@@ -118,9 +140,11 @@ class Usuario {
         $nombre = $this->getNombre();
         $password = $this->getPassword();
         $mail = $this->getMail();
+        $token = $this->getToken();
+        $confirmado = $this->getConfirmado();
         $deshabilitado = $this->getDeshabilitado();
-        $sql = "INSERT INTO usuario (nombre, password, mail, deshabilitado) 
-                VALUES ('$nombre', '$password', '$mail', '$deshabilitado')";
+        $sql = "INSERT INTO usuario (nombre, password, mail, token, confirmado, deshabilitado) 
+                VALUES ('$nombre', '$password', '$mail', '$token', '$confirmado', '$deshabilitado')";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) > 0) {
                 $resp = true;
@@ -145,11 +169,15 @@ class Usuario {
         $nombre = $this->getNombre();
         $password = $this->getPassword();
         $mail = $this->getMail();
+        $token = $this->getToken();
+        $confirmado = $this->getConfirmado();
         $deshabilitado = $this->getDeshabilitado();
         $sql = "UPDATE usuario SET 
                 nombre='$nombre', 
                 password='$password', 
-                mail='$mail', 
+                mail='$mail',  
+                token='$token',  
+                confirmado='$confirmado', 
                 deshabilitado='$deshabilitado' 
                 WHERE id=$id";
         if ($base->Iniciar()) {
@@ -230,7 +258,7 @@ class Usuario {
                 if ($res > 0) {
                     while ($row = $base->Registro()) {
                         $obj = new Usuario();
-                        $obj->setear($row['id'], $row['nombre'], $row['password'], $row['mail'], $row['deshabilitado']);
+                        $obj->setear($row['id'], $row['nombre'], $row['password'], $row['mail'], $row['token'], $row['confirmado'], $row['deshabilitado']);
                         array_push($arreglo, $obj);
                     }
                 }

@@ -21,6 +21,8 @@ CREATE TABLE usuario (
     nombre VARCHAR(50) NOT NULL,
     password VARCHAR(250) NOT NULL,
     mail VARCHAR(250) NOT NULL UNIQUE,
+    token VARCHAR(100) NULL,
+    confirmado INT(1) NOT NULL DEFAULT 0,
     deshabilitado TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (id)
 );
@@ -133,6 +135,22 @@ CREATE TABLE compraEstado (
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 */
+
+/** Inserta los tipos de estado de compra*/
+INSERT INTO compraEstadoTipo (id, descripcion, detalle) VALUES 
+(1, 'CARRITO', 'Compra en proceso, no finalizada por el usuario.'),
+(2, 'PENDIENTE_PAGO', 'A la espera de confirmación de pago.'),
+(3, 'PAGO_ACEPTADO', 'Pago confirmado y recibido.'),
+(4, 'PAGO_RECHAZADO', 'Pago rechazado por la pasarela.'),
+(5, 'PREPARACION', 'El pedido se está preparando para su envío.'),
+(6, 'ENVIADO', 'El pedido fue entregado al transportista.'),
+(7, 'ENTREGADO', 'El cliente ha recibido su pedido.'),
+(8, 'CANCELADO', 'El pedido ha sido cancelado.'),
+(9, 'FALLA_ENTREGA', 'El transportista no pudo completar la entrega.'),
+(10, 'DEVUELTO', 'El cliente ha solicitado y completado una devolución.');
+
+/**Para continuar la numeración automática si no usas los IDs sugeridos, 
+ usa AUTO_INCREMENT, pero para el ejemplo, forzamos los IDs para claridad.*/
 
 INSERT INTO `producto`(`nombre`, `stock`, `precio`, `detalle`, `imagen`) 
 VALUES 
