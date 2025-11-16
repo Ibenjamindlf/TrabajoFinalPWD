@@ -41,15 +41,18 @@ class ABMUsuario {
             $objUsuario = new Usuario();
 
             // *** ¡SEGURIDAD! ***
-            // Hasheamos la contraseña antes de guardarla.
+            // Hasheamos la contraseña aca, en el Controlador.
             $hashedPassword = password_hash($param['password'], PASSWORD_DEFAULT);
             
+
             $objUsuario->setear(
                 null, 
                 $param['nombre'],
                 $hashedPassword, 
                 $param['mail'],
-                null
+                null, 
+                $param['token'] ?? null, 
+                $param['confirmado'] ?? 0 
             );
         }
         return $objUsuario;
