@@ -29,7 +29,7 @@
                 <p class="text-sm text-gray-500 mt-1">Registrate para comprar</p>
             </div>
 
-            <form id="registerForm" class="p-6 space-y-4" action="/TrabajoFinalPWD/auth/register.php" method="post" novalidate>
+            <form id="registerForm" class="p-6 space-y-4" action="#" method="post" novalidate>
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
                     <input id="name" name="name" type="text" required
