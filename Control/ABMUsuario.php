@@ -20,6 +20,9 @@ class ABMUsuario {
             if (!empty($param['mail'])) {
                 $where .= " and mail = '" . $param['mail'] . "'";
             }
+            if (!empty($param['token'])) {
+                $where .= " and token = '" . $param['token'] . "'";
+            }
             if (!empty($param['password'])) {
                  $where .= " and password = '" . $param['password'] . "'";
             }
@@ -41,18 +44,16 @@ class ABMUsuario {
             $objUsuario = new Usuario();
 
             // *** ¡SEGURIDAD! ***
-            // Hasheamos la contraseña aca, en el Controlador.
             $hashedPassword = password_hash($param['password'], PASSWORD_DEFAULT);
             
-
             $objUsuario->setear(
-                null, 
+                null, // id
                 $param['nombre'],
                 $hashedPassword, 
                 $param['mail'],
-                null, 
                 $param['token'] ?? null, 
-                $param['confirmado'] ?? 0 
+                $param['confirmado'] ?? 0, 
+                null                      
             );
         }
         return $objUsuario;
@@ -161,13 +162,11 @@ class ABMUsuario {
             $objUsuario->setMail($param['mail']);
 
             // *** ¡SEGURIDAD! ***
-            // Solo actualizamos el password SI el usuario escribió uno nuevo
             if (!empty($param['password'])) {
                 $hashedPassword = password_hash($param['password'], PASSWORD_DEFAULT);
                 $objUsuario->setPassword($hashedPassword);
             }
             
-            // (No tocamos 'deshabilitado' acá, para eso está bajaLogica)
 
             if ($objUsuario->modificar()) {
                 $resp = true;
@@ -226,36 +225,37 @@ class ABMUsuario {
     }
 
 
-
-    // Función de LOGIN
+    /* Función de LOGIN (Refactorizada)
+     * Verifica al usuario y DEVUELVE EL OBJETO USUARIO si es exitoso.
+     * Ya no maneja la sesión.
+     */
     public function login($param) {
-        if (empty($param['nombre']) || empty($param['password'])) {
-            return false;
+        
+        if (empty($param['mail']) || empty($param['password'])) {
+            return null; // Devuelve null si falla
         }
 
-        $lista = $this->buscar(['nombre' => $param['nombre']]);
+        $lista = $this->buscar(['mail' => $param['mail']]);
 
-        if (count($lista) > 0) {
+        if ($lista != null && count($lista) > 0) {
             $objUsuario = $lista[0];
             
-
             $deshabilitado = $objUsuario->getDeshabilitado();
             if ($deshabilitado == null || $deshabilitado == '0000-00-00 00:00:00') {
                 
-                if (password_verify($param['password'], $objUsuario->getPassword())) {
-                    
-                    
-                    session_start(); 
-                    $_SESSION['idusuario'] = $objUsuario->getId();
-                    $_SESSION['nombreusuario'] = $objUsuario->getNombre();
-                    
-                    
-                    return true;
+                if ($objUsuario->getConfirmado() == 1) {
+
+                    if (password_verify($param['password'], $objUsuario->getPassword())) {
+                        
+                        // ¡ÉXITO! Devolvemos el objeto usuario
+                        return $objUsuario;
+                    }
                 }
             }
         }
         
-        return false;
+        // Si falla cualquier paso, devuelve null
+        return null;
     }
 
 
