@@ -2,15 +2,15 @@
 function marcarValido(input, spanError) {
     input.classList.remove("border-red-500");
     input.classList.add("border-green-500");
-    spanError.classList.remove("text-red-600");
-    spanError.classList.add("text-green-600");
+    spanError.classList.remove("text-red-500");
+    spanError.classList.add("text-green-500");
     spanError.textContent = "Campo válido";
 }
 function marcarError(input, spanError, mensaje) {
     input.classList.remove("border-green-500");
     input.classList.add("border-red-500");
-    spanError.classList.remove("text-green-600");
-    spanError.classList.add("text-red-600");
+    spanError.classList.remove("text-green-500");
+    spanError.classList.add("text-red-500");
     spanError.textContent = mensaje;
 }
 /* Archivo donde se van a encontrar todas las funciones para validar*/
@@ -23,9 +23,9 @@ function validarCampoVacio (input) {
 }
 function validarCampoTexto (input) {
     let esValido = "";
-    const regexTexto = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    const regexTexto = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\.\:\!\?\,\-\(\)]+$/;
     if (!regexTexto.test(input)){
-        esValido = "Este campo admite unicamente letras y espacios.";
+        esValido = "Este campo solo admite letras, números y signos básicos como . , : ! ? - ( ).";
     }
     return esValido;
 }
