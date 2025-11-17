@@ -1,82 +1,108 @@
 <?php
-include_once ("../Modelo/Usuario.php");
-
-
+include_once ("./Modelo/Usuario.php");
+include_once ("./Control/ABMUsuarioRol.php"); 
 
 class Session {
     
-
-    // Constructor que inicia la sesion si no está iniciada
+    /**
+     * Constructor que inicia la sesion si no está iniciada
+     */
     public function __construct()
     {
-        if (session_start() === PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-
-    // Inicia sesión con los valores de usuario y contraseña
-
-    public function iniciar($nombreUsuario, $psw) {
-        $resultado = false;
-        $where = "usnombre = '$nombreUsuario' AND uspass = '$psw'";
-
-        $usuarios = Usuario::seleccionar($where);
-
-        if (count($usuarios) > 0) {
-            $usuario = $usuarios[0];
-
-            // Guardamos datos de sesion
-            $_SESSION['idUsuario'] = $usuario->getIdUsuario();
-            $_SESSION['nombreUsuario'] = $usuario->getNombreUsuario();
-            $_SESSION['usMail'] = $usuario->getUsMail();
-            $_SESSION['activa'] = true;
-
-            $resultado = true;
-        }
-
-        return $resultado;
-    }
-
-    // Valida si la sesión actual tiene usuario y psw válido
-
-    public function validar() {
-
-        if ($this->activa()) {
-
-            if (isset($_SESSION['nombreUsuario']) && isset($_SESSION['rol'])) {
-                return true;
+    /**
+     * Inicia la sesión para un usuario VALIDADO.
+     * Recibe el objeto Usuario y carga sus datos en $_SESSION.
+     * @param Usuario $objUsuario
+     */
+    public function iniciar($objUsuario) {
+        if ($objUsuario != null) {
+            $_SESSION['idusuario'] = $objUsuario->getId();
+            $_SESSION['nombreusuario'] = $objUsuario->getNombre();
+            
+            // Cargamos sus roles en la sesión
+            $abmUR = new ABMUsuarioRol();
+            $rolesUsuario = $abmUR->buscar(['idUsuario' => $objUsuario->getId()]);
+            
+            $rolesParaSesion = [];
+            if ($rolesUsuario != null) {
+                foreach ($rolesUsuario as $rol) {
+                    $rolesParaSesion[] = $rol->getIdRol();
+                }
             }
+            $_SESSION['roles'] = $rolesParaSesion;
+            
+            // Seteamos la sesión como activa
+            $_SESSION['activa'] = true;
         }
-        return false;
     }
 
+    /**
+     * Valida si la sesión actual está activa y tiene los datos mínimos.
+     * @return bool
+     */
+    public function validar() {
+        // Comprueba si está activa Y si tiene un id y roles
+        return ($this->activa() && 
+                isset($_SESSION['idusuario']) && 
+                isset($_SESSION['roles'])
+               );
+    }
 
-    // Devuelve true o false si la sesión está activa o no
+    /**
+     * Devuelve true o false si la sesión está activa o no
+     * @return bool
+     */
     public function activa() {
         return (isset($_SESSION['activa']) && $_SESSION['activa'] === true);
     }
 
-
-    // Devuelve el usuario logueado
-    public function getUsuario() {
-
+    /**
+     * Devuelve el nombre del usuario logueado
+     * @return string|null
+     */
+    public function getNombreUsuario() {
         if ($this->activa()) {
-            return $_SESSION['nombreUsuario'];
+            return $_SESSION['nombreusuario'];
         }
         return null;
     }
 
-    // Cierra la sesión Actual
-    public function cerrar() {
-        $_SESSION = [];
-
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            session_destroy();
+    /**
+     * Devuelve el ID del usuario logueado
+     * @return int|null
+     */
+    public function getIdUsuario() {
+        if ($this->activa()) {
+            return $_SESSION['idusuario'];
         }
+        return null;
     }
 
-}
+    /**
+     * Devuelve el array de IDs de roles del usuario
+     * @return array|null
+     */
+    public function getRoles() {
+        if ($this->activa()) {
+            return $_SESSION['roles'];
+        }
+        return null;
+    }
 
+    /**
+     * Cierra la sesión Actual
+     */
+    public function cerrar() {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_unset(); // Limpia todas las variables
+            session_destroy(); // Destruye la sesión
+        }
+    }
+}
 ?>
 
