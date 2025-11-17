@@ -130,25 +130,31 @@ class Usuario {
     }
 
     /**
-     * Modulo insertar
-     * (funcion para insertar un usuario en la BD)
+     * Modulo insertar (CORREGIDO PARA MANEJAR 7 CAMPOS Y NULL)
      * @return bool
      */
     public function insertar() {
         $resp = false;
         $base = new database();
+        
         $nombre = $this->getNombre();
         $password = $this->getPassword();
         $mail = $this->getMail();
         $token = $this->getToken();
         $confirmado = $this->getConfirmado();
         $deshabilitado = $this->getDeshabilitado();
+
+        $sqlToken = is_null($token) ? "NULL" : "'$token'";
+        $sqlConfirmado = is_null($confirmado) ? "0" : "'$confirmado'"; 
+        $sqlDeshabilitado = is_null($deshabilitado) ? "NULL" : "'$deshabilitado'";
+
         $sql = "INSERT INTO usuario (nombre, password, mail, token, confirmado, deshabilitado) 
-                VALUES ('$nombre', '$password', '$mail', '$token', '$confirmado', '$deshabilitado')";
+                VALUES ('$nombre', '$password', '$mail', $sqlToken, $sqlConfirmado, $sqlDeshabilitado)";
+                
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) > 0) {
                 $resp = true;
-            }else {
+            } else {
                 $this->setMensajeOperacion("Usuario->insertar: " . $base->getError());
             }
         } else {
@@ -158,30 +164,36 @@ class Usuario {
     }
 
     /**
-     * Modulo modificar
-     * (funcion para modificar un usuario en la BD)
+     * Modulo modificar (CORREGIDO PARA MANEJAR 7 CAMPOS Y NULL)
      * @return bool
      */
     public function modificar() {
         $resp = false;
         $base = new database();
+        
         $id = $this->getId();
         $nombre = $this->getNombre();
-        $password = $this->getPassword();
+        $password = $this->getPassword(); 
         $mail = $this->getMail();
         $token = $this->getToken();
         $confirmado = $this->getConfirmado();
         $deshabilitado = $this->getDeshabilitado();
+
+        $sqlToken = is_null($token) ? "NULL" : "'$token'";
+        $sqlConfirmado = is_null($confirmado) ? "0" : "'$confirmado'";
+        $sqlDeshabilitado = is_null($deshabilitado) ? "NULL" : "'$deshabilitado'";
+
         $sql = "UPDATE usuario SET 
-                nombre='$nombre', 
-                password='$password', 
-                mail='$mail',  
-                token='$token',  
-                confirmado='$confirmado', 
-                deshabilitado='$deshabilitado' 
-                WHERE id=$id";
+                    nombre = '$nombre', 
+                    password = '$password', 
+                    mail = '$mail', 
+                    token = $sqlToken,
+                    confirmado = $sqlConfirmado,
+                    deshabilitado = $sqlDeshabilitado
+                WHERE id = $id";
+                
         if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql) > 0) {
+            if ($base->Ejecutar($sql) !== false) { 
                 $resp = true;
             } else {
                 $this->setMensajeOperacion("Usuario->modificar: " . $base->getError());

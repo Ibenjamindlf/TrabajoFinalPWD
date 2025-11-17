@@ -2,7 +2,7 @@
 include_once(__DIR__ . '/../Modelo/UsuarioRol.php');
 include_once(__DIR__ . '/../Modelo/Usuario.php'); 
 include_once(__DIR__ . '/../Modelo/Rol.php'); 
-include_once(__DIR__ . '/validadores/validadores.php');
+include_once(__DIR__ . '/validadores/Validador.php');
 
 class ABMUsuarioRol {
 

@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    include_once ('../Vista/structure/header.php');
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,9 +21,7 @@
     }
 </style>
 <body class="flex flex-col min-h-screen">
-<?php
-    include_once ('../Vista/structure/header.php');
-?>
+
 <main class="flex-grow flex items-center justify-center py-12 px-4">
     <div class="w-full max-w-md">
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -28,8 +30,33 @@
                 <h1 class="text-2xl font-semibold text-gray-800">Iniciar sesión</h1>
                 <p class="text-sm text-gray-500 mt-1">Accedé a tu cuenta para poder comprar</p>
             </div>
+            
+            <?php 
+            // -----------------------------------------------------------------
+            // BLOQUE DE ERRORES 
+            // -----------------------------------------------------------------
+            if (isset($_SESSION['errores_abm']) && !empty($_SESSION['errores_abm'])): ?>
+                <div class="m-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <p class="font-bold">Se encontraron errores:</p>
+                    
+                    <?php
+                    if (is_array($_SESSION['errores_abm'])) {
+                        echo '<ul class="list-disc list-inside">';
+                        foreach ($_SESSION['errores_abm'] as $error) {
+                            echo "<li>" . htmlspecialchars($error) . "</li>";
+                        }
+                        echo '</ul>';
+                    } else {
+                        echo "<p>" . htmlspecialchars($_SESSION['errores_abm']) . "</p>";
+                    }
+                    ?>
+                </div>
+            <?php 
+                unset($_SESSION['errores_abm']);
+            endif; 
+            ?>
 
-            <form id="loginForm" class="p-6 space-y-4" action="#" method="post" novalidate>
+            <form id="loginForm" class="p-6 space-y-4" action="./accion/accionLogin.php" method="post" novalidate>
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input id="email" name="email" type="email" required
@@ -90,41 +117,5 @@
     include_once ('../Vista/structure/footer.php');
 ?>
 
-<!--<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('loginForm');
-    const email = document.getElementById('email');
-    const pwd = document.getElementById('password');
-    const emailError = document.getElementById('emailError');
-    const pwdError = document.getElementById('pwdError');
-    const toggle = document.getElementById('togglePwd');
-
-    toggle.addEventListener('click', () => {
-        if (pwd.type === 'password') {
-            pwd.type = 'text';
-            toggle.textContent = 'Ocultar';
-        } else {
-            pwd.type = 'password';
-            toggle.textContent = 'Mostrar';
-        }
-    });
-
-    form.addEventListener('submit', function (e) {
-        let valid = true;
-        emailError.classList.add('hidden');
-        pwdError.classList.add('hidden');
-
-        if (!email.value || !/^\S+@\S+\.\S+$/.test(email.value)) {
-            emailError.classList.remove('hidden');
-            valid = false;
-        }
-        if (!pwd.value) {
-            pwdError.classList.remove('hidden');
-            valid = false;
-        }
-        if (!valid) e.preventDefault();
-    });
-});
-</script>-->
 </body>
 </html>
