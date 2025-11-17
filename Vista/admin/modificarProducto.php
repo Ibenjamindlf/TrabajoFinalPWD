@@ -47,7 +47,7 @@ if ($id) {
 
             <div class="p-6">
                 <?php if ($producto): ?>
-                    <form action="../accion/accionModificarProducto.php" method="POST" enctype="multipart/form-data">
+                    <form action="../accion/accionModificarProducto.php" method="POST" enctype="multipart/form-data" id="formProducto">
 
                         <div class="mb-4">
                             <label for="id" class="block text-sm font-medium text-gray-700 mb-1">ID Producto</label>
@@ -59,6 +59,7 @@ if ($id) {
                                 value="<?php echo $producto->getId(); ?>" 
                                 readonly
                             >
+                            
                         </div>
 
                         <div class="mb-4">
@@ -69,8 +70,9 @@ if ($id) {
                                 id="nombre" 
                                 name="nombre" 
                                 value="<?php echo $producto->getNombre(); ?>" 
-                                required
+                                
                             >
+                            <p id="errorNombre" class="text-sm mt-1"></p>
                         </div>
 
                         <div class="mb-4">
@@ -81,8 +83,9 @@ if ($id) {
                                 id="stock" 
                                 name="stock" 
                                 value="<?php echo $producto->getStock(); ?>" 
-                                required
+                                
                             >
+                            <p id="errorStock" class="text-sm mt-1"></p>
                         </div>
 
                         <div class="mb-4">
@@ -93,8 +96,9 @@ if ($id) {
                                 id="precio" 
                                 name="precio" 
                                 value="<?php echo $producto->getPrecio(); ?>" 
-                                required
+                                
                             >
+                            <p id="errorPrecio" class="text-sm mt-1"></p>
                         </div>
 
                         <div class="mb-4">
@@ -105,8 +109,9 @@ if ($id) {
                                 id="detalle" 
                                 name="detalle" 
                                 value="<?php echo $producto->getdetalle(); ?>" 
-                                required
+                                
                             >
+                            <p id="errorDetalle" class="text-sm mt-1"></p>
                         </div>
 
                         <div class="mb-4">
@@ -121,6 +126,7 @@ if ($id) {
                                 name="imagen"
                                 accept=".jpg,.jpeg,.png"
                             >
+                            <p id="errorImagen" class="text-sm mt-1"></p>
                         </div>
 
                         <div class="flex justify-between mt-6">
@@ -146,6 +152,8 @@ if ($id) {
     <?php
         include_once ('../structure/footer.php');
     ?>
+    <script src="../sources/js/validadores.js"></script>
+    <script src="../sources/js/validadorModificarProducto.js"></script>
 </body>
 </html>
 
