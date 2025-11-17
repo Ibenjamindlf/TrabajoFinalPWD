@@ -135,19 +135,25 @@ CREATE TABLE compraEstado (
     ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 */
+INSERT INTO rol (descripcion) VALUES
+('Super_Admin'),
+('Admin'),
+('Cliente');
+
+
 
 /** Inserta los tipos de estado de compra*/
-INSERT INTO compraEstadoTipo (id, descripcion, detalle) VALUES 
-(1, 'CARRITO', 'Compra en proceso, no finalizada por el usuario.'),
-(2, 'PENDIENTE_PAGO', 'A la espera de confirmación de pago.'),
-(3, 'PAGO_ACEPTADO', 'Pago confirmado y recibido.'),
-(4, 'PAGO_RECHAZADO', 'Pago rechazado por la pasarela.'),
-(5, 'PREPARACION', 'El pedido se está preparando para su envío.'),
-(6, 'ENVIADO', 'El pedido fue entregado al transportista.'),
-(7, 'ENTREGADO', 'El cliente ha recibido su pedido.'),
-(8, 'CANCELADO', 'El pedido ha sido cancelado.'),
-(9, 'FALLA_ENTREGA', 'El transportista no pudo completar la entrega.'),
-(10, 'DEVUELTO', 'El cliente ha solicitado y completado una devolución.');
+INSERT INTO compraEstadoTipo (descripcion, detalle) VALUES 
+('CARRITO', 'Compra en proceso, no finalizada por el usuario.'),
+('PENDIENTE_PAGO', 'A la espera de confirmación de pago.'),
+('PAGO_ACEPTADO', 'Pago confirmado y recibido.'),
+('PAGO_RECHAZADO', 'Pago rechazado por la pasarela.'),
+('PREPARACION', 'El pedido se está preparando para su envío.'),
+('ENVIADO', 'El pedido fue entregado al transportista.'),
+('ENTREGADO', 'El cliente ha recibido su pedido.'),
+('CANCELADO', 'El pedido ha sido cancelado.'),
+('FALLA_ENTREGA', 'El transportista no pudo completar la entrega.'),
+('DEVUELTO', 'El cliente ha solicitado y completado una devolución.');
 
 /**Para continuar la numeración automática si no usas los IDs sugeridos, 
  usa AUTO_INCREMENT, pero para el ejemplo, forzamos los IDs para claridad.*/
