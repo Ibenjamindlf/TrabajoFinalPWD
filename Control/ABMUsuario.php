@@ -75,8 +75,7 @@ class ABMUsuario {
         $objUsuario = null;
         if (isset($param['id'])) {
             $objUsuario = new Usuario();
-            // setear() espera 5 parámetros
-            $objUsuario->setear($param['id'], null, null, null, null);
+            $objUsuario->setear($param['id'], null, null, null, null, null, null);
         }
         return $objUsuario;
     } 
@@ -168,7 +167,7 @@ class ABMUsuario {
                 $objUsuario->setPassword($hashedPassword);
             }
             
-            // (No tocamos 'deshabilitado' aquí, para eso está bajaLogica)
+            // (No tocamos 'deshabilitado' acá, para eso está bajaLogica)
 
             if ($objUsuario->modificar()) {
                 $resp = true;
@@ -258,9 +257,6 @@ class ABMUsuario {
         
         return false;
     }
-
-
-
 
 
 }
