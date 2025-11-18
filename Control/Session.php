@@ -1,5 +1,5 @@
 <?php
-include_once ("../Modelo/Usuario.php");
+include_once __DIR__ . '/../Modelo/Usuario.php';
 include_once ("ABMUsuarioRol.php"); 
 
 class Session {
