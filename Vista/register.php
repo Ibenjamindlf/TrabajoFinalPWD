@@ -29,47 +29,47 @@
                 <p class="text-sm text-gray-500 mt-1">Registrate para comprar</p>
             </div>
 
-            <form id="registerForm" class="p-6 space-y-4" action="./accion/accionRegistro.php" method="post" novalidate>
+            <form id="registerForm" class="p-6 space-y-4" action="./accion/accionRegistro.php" method="post">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
-                    <input id="name" name="name" type="text" required
+                    <input id="name" name="name" type="text"
                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                            placeholder="Tu nombre completo">
-                    <p id="nameError" class="mt-1 text-xs text-red-500 hidden">Ingresá tu nombre.</p>
+                    <p id="nameError" class="text-sm mt-1"></p>
                 </div>
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input id="email" name="email" type="email" required
+                    <input id="email" name="email" type="email"
                            class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                            placeholder="tucorreo@ejemplo.com">
-                    <p id="emailError" class="mt-1 text-xs text-red-500 hidden">Ingresá un email válido.</p>
+                    <p id="emailError" class="text-sm mt-1"></p>
                 </div>
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
                     <div class="relative">
-                        <input id="password" name="password" type="password" required
+                        <input id="password" name="password" type="password"
                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                placeholder="Mínimo 8 caracteres">
                         <button type="button" id="togglePwd" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                             Mostrar
                         </button>
                     </div>
-                    <p id="pwdError" class="mt-1 text-xs text-red-500 hidden">La contraseña debe tener al menos 8 caracteres.</p>
+                    <p id="pwdError" class="text-sm mt-1"></p>
                 </div>
 
                 <div>
                     <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
                     <div class="relative">
-                        <input id="confirmPassword" name="confirmPassword" type="password" required
+                        <input id="confirmPassword" name="confirmPassword" type="password"
                                class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                placeholder="Repetí la contraseña">
                         <button type="button" id="toggleConfirm" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                             Mostrar
                         </button>
                     </div>
-                    <p id="confirmError" class="mt-1 text-xs text-red-500 hidden">Las contraseñas no coinciden.</p>
+                    <p id="confirmError" class="text-sm mt-1"></p>
                 </div>
 
                 <div class="flex items-center">
@@ -174,5 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>-->
+<script src="sources/js/validadores.js"></script>
+<script src="sources/js/validadorRegister.js"></script>
 </body>
 </html>
