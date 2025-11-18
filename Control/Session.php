@@ -1,6 +1,6 @@
 <?php
-include_once ("./Modelo/Usuario.php");
-include_once ("./Control/ABMUsuarioRol.php"); 
+include_once ("../Modelo/Usuario.php");
+include_once ("ABMUsuarioRol.php"); 
 
 class Session {
     
