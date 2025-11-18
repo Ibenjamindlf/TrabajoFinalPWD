@@ -1,5 +1,5 @@
 <?php
-include_once("Control/ABMProducto.php");
+include_once("../Control/ABMProducto.php");
 $abmProducto = new ABMProducto();
 $arrayProductos = $abmProducto->buscar(NULL);
 if ($arrayProductos != null) {
@@ -19,7 +19,7 @@ if ($arrayProductos != null) {
 </head>
 <body class="flex min-h-screen flex-col bg-gray-50">
     <?php
-        include_once ('Vista/structure/header.php');
+        include_once ('../Vista/structure/header.php');
     ?>
 
     <main>
@@ -206,7 +206,7 @@ if ($arrayProductos != null) {
     </main>
 
     <?php
-        include_once ('Vista/structure/footer.php');
+        include_once ('../Vista/structure/footer.php');
     ?>
 </body>
 </html>
