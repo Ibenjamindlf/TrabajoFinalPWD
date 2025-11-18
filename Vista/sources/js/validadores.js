@@ -56,3 +56,45 @@ function validarCampoImagen (input) {
     }
     return esValido;
 }
+function validarCampoNombre(input) {
+    let esValido = "";
+    // Solo letras (con acentos), ñ y espacios
+    const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s+[A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/;
+    if (!regexNombre.test(input.trim())) {
+        esValido = "Ingresá un nombre válido (solo letras y espacios).";
+    }
+    return esValido;
+}
+function validarCampoEmail(input) {
+    let esValido = "";
+    // Regex simple y seguro para email
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!regexEmail.test(input.trim())) {
+        esValido = "Ingresá un email válido (ejemplo: usuario@correo.com).";
+    }
+
+    return esValido;
+}
+function validarPassword(input) {
+    let esValido = "";
+    // Mínimo 8 caracteres
+    const regexPassword = /^.{8,}$/;
+
+    if (!regexPassword.test(input.trim())) {
+        esValido = "La contraseña debe tener al menos 8 caracteres.";
+    }
+
+    return esValido;
+}
+function validarConfirmacionPassword(pass, confirmPass) {
+    let esValido = "";
+
+    if (pass.trim() !== confirmPass.trim()) {
+        esValido = "Las contraseñas no coinciden.";
+    }
+
+    return esValido;
+}
+
+
