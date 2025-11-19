@@ -73,7 +73,6 @@ class Email
 
             $mail->addAddress($this->email, $this->nombre);
 
-            // 3. Contenido
             $mail->Subject = 'Reestablece tu Password';
             $contenido = "<html>";
             $contenido .= "<p><strong>Hola " . htmlspecialchars($this->nombre) . "</strong> Has solicitado reestablecer tu password, sigue el siguiente enlace para hacerlo. </p>";
@@ -82,7 +81,49 @@ class Email
             $contenido .= "</html>";
             $mail->Body = $contenido;
 
-            // 4. Enviar
+            $mail->send();
+            return true;
+
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+
+    // Envía el resumen de la compra realizada
+    public function enviarResumenCompra($productos, $total): bool {
+        try {
+            $mail = $this->crearMailer();
+            $mail->addAddress($this->email, $this->nombre);
+            
+            $mail->Subject = '¡Gracias por tu compra en Vinilos Truchos!';
+            
+            // Construccion HTML
+            $listaHTML = '<ul style="padding-left: 20px;">';
+            foreach ($productos as $item) {
+
+                $subtotal = $item['precio'] * $item['cantidad'];
+                $listaHTML .= "<li style='margin-bottom: 5px;'>";
+                $listaHTML .= "<strong>" . htmlspecialchars($item['nombre']) . "</strong>";
+                $listaHTML .= " x " . $item['cantidad'];
+                $listaHTML .= " - $" . number_format($subtotal, 2);
+                $listaHTML .= "</li>";
+            }
+            $listaHTML .= '</ul>';
+
+            // Cuerpo del Mensaje
+            $contenido = "<html>";
+            $contenido .= "<h2>¡Tu compra ha sido finalizada con éxito!</h2>";
+            $contenido .= "<p>Hola <strong>" . htmlspecialchars($this->nombre) . "</strong>, gracias por confiar en nosotros.</p>";
+            $contenido .= "<h3>Detalle de tu pedido:</h3>";
+            $contenido .= $listaHTML;
+            $contenido .= "<h3 style='color: #e65100;'>Precio Final: $" . number_format($total, 2) . "</h3>";
+            $contenido .= "<hr>";
+            $contenido .= "<p><small>Si tenés alguna duda, respondé a este correo.</small></p>";
+            $contenido .= "</html>";
+
+            $mail->Body = $contenido;
+
             $mail->send();
             return true;
 
