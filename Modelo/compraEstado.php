@@ -91,7 +91,7 @@ class compraEstado {
             if ($res > -1) {
                 if ($res > 0) {
                     $row = $base->Registro();
-                    $this->setear($row['id'], $row['idCompra'], $row['idEstadoTipo'], $row['fechaIni'], $row['fechaFin']);
+                    $this->setear($row['id'], $row['idCompra'], $row['idCET'], $row['fechaIni'], $row['fechaFin']);
                     $resp = true;
                 }
             }
@@ -109,7 +109,7 @@ class compraEstado {
     public function insertar() {
         $resp = false;
         $base = new database();
-        $sql = "INSERT INTO compraEstado (idCompra, idEstadoTipo, fechaIni, fechaFin) VALUES (" .
+        $sql = "INSERT INTO compraEstado (idCompra, idCET, fechaIni, fechaFin) VALUES (" .
                $this->getIdCompra() . ", " .
                $this->getIdEstadoTipo() . ", '" .
                $this->getFechaIni() . "', ";
@@ -140,7 +140,7 @@ class compraEstado {
         $resp = false;
         $base = new database();
         $sql = "UPDATE compraEstado SET idCompra = " . $this->getIdCompra() .
-               ", idEstadoTipo = " . $this->getIdEstadoTipo() .
+               ", idCET = " . $this->getIdEstadoTipo() .
                ", fechaIni = '" . $this->getFechaIni() . "', ";
         if ($this->getFechaFin() != "") {
             $sql .= "fechaFin = '" . $this->getFechaFin() . "' ";
@@ -201,13 +201,12 @@ class compraEstado {
                 if ($res > 0) {
                     while ($row = $base->Registro()) {
                         $obj = new compraEstado();
-                        $obj->setear($row['id'], $row['idCompra'], $row['idEstadoTipo'], $row['fechaIni'], $row['fechaFin']);
+                        $obj->setear($row['id'], $row['idCompra'], $row['idCET'], $row['fechaIni'], $row['fechaFin']);
                         array_push($arreglo, $obj);
                     }
                 }
             }
         } else {
-            self::setMensajeOperacion("compraEstado->seleccionar: " . $base->getError());
         }
         
             
