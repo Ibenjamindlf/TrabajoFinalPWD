@@ -7,7 +7,7 @@ if ($arrayProductos != null) {
 } else {
     $cantProductos = 0;
 }
-?>s
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,6 +23,17 @@ if ($arrayProductos != null) {
 ?>
 <main class="flex-grow bg-gray-100 py-12">
     <div class="container mx-auto mt-12 px-4"> <div class="text-center mb-12">
+    <?php if (isset($_GET['msg'])): ?>
+    <?php if ($_GET['msg'] === 'no_carrito'): ?>
+        <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-2 rounded my-2">
+            No tienes un carrito activo. Agrega un producto para crear uno.
+        </div>
+    <?php elseif ($_GET['msg'] === 'carrito_vacio'): ?>
+        <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-2 rounded my-2">
+            No tienes productos en el carrito. Agrega uno por favor.
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
             <h2 class="text-3xl font-bold">Nuestros Productos</h2>
             <p class="text-gray-600 mt-2">Explorá nuestros productos destacados</p>
         </div>

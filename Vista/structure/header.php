@@ -117,7 +117,7 @@ function canView(int $maxRole) {
     // print_r($rol);
     // echo $rol[0];
     // echo "nashei";
-    var_dump($_SESSION);
+    // var_dump($_SESSION);
     ?>
 </header>
 
