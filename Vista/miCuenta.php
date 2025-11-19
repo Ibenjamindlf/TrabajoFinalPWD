@@ -51,6 +51,10 @@ include_once('../Vista/structure/header.php');
                    class="block w-full bg-red-600 text-white py-2 rounded-lg font-medium hover:bg-red-700 transition">
                     Cerrar sesión
                 </a>
+                <a href="/TrabajoFinalPWD/Vista/auth/recuperarPass.php"
+                   class="block w-full bg-orange-400 text-white py-2 rounded-lg font-medium hover:bg-yellow-700 transition">
+                    Modificar contraseña
+                </a>
             </div>
 
         </div>
