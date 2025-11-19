@@ -1,19 +1,14 @@
 <?php
-// Inicio validacion para la pagina segura
 require_once __DIR__ . '/../Control/Session.php';
+require_once __DIR__ . '/../Control/autenticacionPrueba.php';
+require_once __DIR__ . '/../Control/roles.php';
 
 $session = new Session();
-// $session->iniciar(); // inicia session_start() si no está iniciada
+requireLogin($session); // redirige a login si no hay sesión
 
-if (!$session->validar()) {
-    // Si NO hay session activa lo redirige
-    header("Location: login.php");
-    exit;
-}
-// Fin validacion pagina segura
-// Si hay session activa ejecuta normalmente el codigo
 include_once('../Vista/structure/header.php');
 ?>
+<!-- resto de la vista carrito -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
