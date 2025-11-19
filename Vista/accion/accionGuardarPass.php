@@ -24,16 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($usuarios != null && count($usuarios) > 0) {
         $usuario = $usuarios[0];
 
-        // 1. Hasheamos la nueva contraseña
         $newHash = password_hash($pass, PASSWORD_DEFAULT);
         
-        // 2. Seteamos el hash directamente (Modelo/Usuario.php setPassword NO hashea, solo asigna)
         $usuario->setPassword($newHash);
         
-        // 3. Borramos el token para que no se use de nuevo
         $usuario->setToken(null); 
 
-        // 4. Guardamos
         if ($usuario->modificar()) {
             $_SESSION['mensaje_exito'] = "Contraseña reestablecida. Ya puedes iniciar sesión.";
             header('Location: /TrabajoFinalPWD/Vista/login.php');
