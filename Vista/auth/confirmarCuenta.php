@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
-    <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/Logo.png" type="image/x-icon">
-    <title>Confirmar Cuenta</title>
-</head>
-<body class="flex flex-col min-h-screen">
-    <?php
+<?php
     include_once ('../structure/header.php');
-    ?>
+?>
     <main class="flex-grow flex items-center justify-center py-12 px-4">
     <div class="w-full max-w-md">
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -39,8 +28,6 @@
         </div>
     </div>
     </main>
-    <?php
+<?php
     include_once ('../structure/footer.php');
 ?>
-</body>
-</html>

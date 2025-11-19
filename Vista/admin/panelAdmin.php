@@ -1,4 +1,13 @@
 <?php
+require_once __DIR__ . '/../../Control/Session.php';
+require_once __DIR__ . '/../../Control/autenticacion.php';
+require_once __DIR__ . '/../../Control/roles.php';
+
+$session = new Session();
+
+// Requiere ser admin (2) o superior (1)
+requireAtLeastRole($session, ROLE_ADMIN, '/TrabajoFinalPWD/inicio.php'); // opcional: redirigir a inicio si no tiene permiso
+
 include_once("../../Control/ABMProducto.php");
 $abmProducto = new ABMProducto();
 $arrayProductos = $abmProducto->buscar(NULL);

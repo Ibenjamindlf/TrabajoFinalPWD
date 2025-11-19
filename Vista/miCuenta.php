@@ -1,17 +1,11 @@
 <?php
-// Inicio validacion para la pagina segura
 require_once __DIR__ . '/../Control/Session.php';
+require_once __DIR__ . '/../Control/autenticacion.php';
+require_once __DIR__ . '/../Control/roles.php';
 
 $session = new Session();
-// $session->iniciar(); // inicia session_start() si no está iniciada
+requireLogin($session); // redirige a login si no hay sesión
 
-if (!$session->validar()) {
-    // Si NO hay session activa lo redirige
-    header("Location: login.php");
-    exit;
-}
-// Fin validacion pagina segura
-// Si hay session activa ejecuta normalmente el codigo
 include_once('../Vista/structure/header.php');
 ?>
 
@@ -53,9 +47,13 @@ include_once('../Vista/structure/header.php');
                 </div>
 
                 <!-- Botón cerrar sesión -->
-                <a href="/TrabajoFinalPWD/Vista/auth/logout.php"
+                <a href="/TrabajoFinalPWD/Vista/accion/accionLogout.php"
                    class="block w-full bg-red-600 text-white py-2 rounded-lg font-medium hover:bg-red-700 transition">
                     Cerrar sesión
+                </a>
+                <a href="/TrabajoFinalPWD/Vista/auth/recuperarPass.php"
+                   class="block w-full bg-orange-400 text-white py-2 rounded-lg font-medium hover:bg-yellow-700 transition">
+                    Modificar contraseña
                 </a>
             </div>
 
