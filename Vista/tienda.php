@@ -53,10 +53,20 @@ if ($arrayProductos != null) {
                                 <p class="font-bold text-orange-600 mb-2">
                                     $<?php echo number_format($unProducto->getPrecio(), 2, ',', '.'); ?>
                                 </p>
-                                <div class="flex gap-2">
-                                <button data-product="2" class="w-1/2 bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">Ver producto</button>
-                                <button data-add="2" class="w-1/2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">Agregar</button>
-                                </div>
+<div class="flex gap-2">
+    <button 
+        data-product="2" 
+        class="w-1/2 flex justify-center items-center bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">
+        Ver producto
+    </button>
+
+    <a 
+        href="accion/accionAgregarAlCarrito.php?idProducto=<?php echo $unProducto->getId(); ?>"
+        class="w-1/2 flex justify-center items-center bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800 transition">
+        Agregar al carrito
+    </a>
+</div>
+
                             </div>
                         </div>
                     </div>
