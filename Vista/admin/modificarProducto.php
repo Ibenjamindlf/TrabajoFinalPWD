@@ -8,7 +8,7 @@
 //     $cantProductos = 0;
 // }
 require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/autenticacionPrueba.php';
+require_once __DIR__ . '/../../Control/autenticacion.php';
 require_once __DIR__ . '/../../Control/roles.php';
 
 $session = new Session();
