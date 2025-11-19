@@ -7,6 +7,14 @@
 // } else {
 //     $cantProductos = 0;
 // }
+require_once __DIR__ . '/../../Control/Session.php';
+require_once __DIR__ . '/../../Control/autenticacionPrueba.php';
+require_once __DIR__ . '/../../Control/roles.php';
+
+$session = new Session();
+
+// Requiere ser admin (2) o superior (1)
+requireAtLeastRole($session, ROLE_ADMIN, '/TrabajoFinalPWD/inicio.php'); // opcional: redirigir a inicio si no tiene permiso
 
 include_once(__DIR__ . "/../../Control/ABMProducto.php");
 
