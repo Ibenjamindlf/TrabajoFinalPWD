@@ -3,10 +3,11 @@ require_once __DIR__ . '/../../Control/Session.php';
 require_once __DIR__ . '/../../Control/ABMCompra.php';
 require_once __DIR__ . '/../../Control/ABMCompraProducto.php';
 require_once __DIR__ . '/../../Control/ABMCompraEstado.php';
+require_once __DIR__ . '/../../Control/ABMProducto.php'; 
 
 $session = new Session();
 
-// 1. Verificar sesión
+
 if (!$session->activa()) {
     header('Location: /TrabajoFinalPWD/Vista/login.php');
     exit;
@@ -20,23 +21,15 @@ if (!$idProducto) {
     exit;
 }
 
-// 2. Buscar si hay un carrito ABIERTO (Estado 1)
 $abmCompra = new ABMCompra();
 $abmCompraEstado = new ABMCompraEstado();
-
 $comprasUsuario = $abmCompra->buscar(['idUsuario' => $idUsuario]);
 $idCompraActiva = null;
 
 if (!empty($comprasUsuario)) {
-    // Recorremos para encontrar la que tenga estado 1 activo
-    // (Usamos array_reverse para ver las más recientes primero)
     $comprasUsuario = array_reverse($comprasUsuario);
     foreach ($comprasUsuario as $compra) {
-        $estados = $abmCompraEstado->buscar([
-            'idCompra' => $compra->getId(), 
-            'fechaFinNull' => true
-        ]);
-
+        $estados = $abmCompraEstado->buscar(['idCompra' => $compra->getId(), 'fechaFinNull' => true]);
         if (!empty($estados) && $estados[0]->getIdEstadoTipo() == 1) {
             $idCompraActiva = $compra->getId();
             break;
@@ -44,32 +37,60 @@ if (!empty($comprasUsuario)) {
     }
 }
 
-// 3. Si no hay carrito activo, creamos uno nuevo
 if ($idCompraActiva == null) {
-    // A. Crear Compra
     if ($abmCompra->alta(['idUsuario' => $idUsuario])) {
         $compras = $abmCompra->buscar(['idUsuario' => $idUsuario]);
-        $nuevaCompra = end($compras);
-        $idCompraActiva = $nuevaCompra->getId();
-
-        // B. Asignarle estado "Iniciada" (1)
-        $abmCompraEstado->alta([
-            'idCompra' => $idCompraActiva,
-            'idEstadoTipo' => 1
-        ]);
+        $idCompraActiva = end($compras)->getId();
+        $abmCompraEstado->alta(['idCompra' => $idCompraActiva, 'idEstadoTipo' => 1]);
     } else {
         header('Location: /TrabajoFinalPWD/Vista/tienda.php?msg=error_compra');
         exit;
     }
 }
 
-// 4. Agregar el producto
 $abmCompraProducto = new ABMCompraProducto();
-$exito = $abmCompraProducto->alta([
+$abmProducto = new ABMProducto();
+
+
+$itemsEnCarrito = $abmCompraProducto->buscar([
     'idCompra' => $idCompraActiva,
-    'idProducto' => $idProducto,
-    'cantidad' => 1
+    'idProducto' => $idProducto
 ]);
+
+$exito = false;
+
+if (!empty($itemsEnCarrito)) {
+    $itemExistente = $itemsEnCarrito[0];
+    $nuevaCantidad = $itemExistente->getCantidad() + 1;
+    
+
+    $prodObj = $abmProducto->buscar(['id' => $idProducto])[0];
+    if ($prodObj->getStock() >= 1) {
+        $exito = $abmCompraProducto->modificacion([
+            'id' => $itemExistente->getId(),
+            'idCompra' => $idCompraActiva,
+            'idProducto' => $idProducto,
+            'cantidad' => $nuevaCantidad
+        ]);
+
+        
+        if ($exito) {
+            $nuevoStockGlobal = $prodObj->getStock() - 1;
+            $prodObj->estado($nuevoStockGlobal); 
+        }
+    } else {
+
+        header("Location: /TrabajoFinalPWD/Vista/cart.php?msg=sin_stock");
+        exit;
+    }
+
+} else {
+    $exito = $abmCompraProducto->alta([
+        'idCompra' => $idCompraActiva,
+        'idProducto' => $idProducto,
+        'cantidad' => 1
+    ]);
+}
 
 if ($exito) {
     header("Location: /TrabajoFinalPWD/Vista/cart.php");
@@ -77,5 +98,4 @@ if ($exito) {
     header("Location: /TrabajoFinalPWD/Vista/tienda.php?msg=error_agregar");
 }
 exit;
-
 ?>
