@@ -17,7 +17,7 @@
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl font-bold mb-4">Nuestra Historia</h1>
             <p class="max-w-2xl mx-auto text-gray-300">
-                Nos dedicamos a estudiar y completar nuestra formación profesional, desarrollando páginas web de alta calidad. Nuestro equipo está compuesto por apasionados desarrolladores y el Mati.
+                Nos dedicamos a estudiar y completar nuestra formación profesional, desarrollando páginas web de alta calidad. Nuestro equipo está compuesto por apasionados desarrolladores.
             </p>
         </div>
     </section>
