@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
-    <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/Logo.png" type="image/x-icon">
-    <title>Recuperar contraseña</title>
-</head>
-<body class="flex flex-col min-h-screen">
-    <?php
+<?php
     include_once ('../structure/header.php');
-    ?>
+?>
     <main class="flex-grow flex items-center justify-center py-12 px-4">
     <div class="w-full max-w-md">
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -21,7 +10,7 @@
                 <p class="text-sm text-gray-500 mt-1">Ingresá tu email y te enviaremos un enlace para restablecerla.</p>
             </div>
 
-            <form id="recoverForm" class="p-6 space-y-4" action="/TrabajoFinalPWD/Vista/auth/procesar_recupero.php" method="post" novalidate>
+            <form id="recoverForm" class="p-6 space-y-4" action="/TrabajoFinalPWD/Vista/accion/accionSolicitarRecuperacion.php" method="post" novalidate>
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input id="email" name="email" type="email" required
@@ -42,8 +31,6 @@
         </div>
     </div>
     </main>
-    <?php
+<?php
     include_once ('../structure/footer.php');
 ?>
-</body>
-</html>
