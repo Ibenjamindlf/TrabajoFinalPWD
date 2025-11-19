@@ -5,7 +5,6 @@ include_once(__DIR__ . '/../Modelo/compra.php');
 include_once(__DIR__ . '/../Modelo/Producto.php'); 
 include_once(__DIR__ . '/validadores/Validador.php');
 
-include_once(__DIR__ . '/../Modelo/Producto.php'); 
 include_once(__DIR__ . '/ABMProducto.php');
 
 class ABMCompraProducto {
