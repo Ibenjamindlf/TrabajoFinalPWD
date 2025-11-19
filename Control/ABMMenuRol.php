@@ -3,7 +3,7 @@
 include_once(__DIR__ . '/../Modelo/MenuRol.php');
 include_once(__DIR__ . '/../Modelo/Menu.php');
 include_once(__DIR__ . '/../Modelo/Rol.php');
-include_once(__DIR__ . '/validadores/validador.php');
+include_once(__DIR__ . '/validadores/Validador.php');
 
 
 class ABMMenuRol {
