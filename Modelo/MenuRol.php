@@ -3,15 +3,15 @@ include_once ("conector/database.php");
 
 class MenuRol {
     private $id;
-    private $idMenu;
-    private $idRol;
+    private $objMenu;
+    private $objRol;
     private $mensajeOperacion;
 
     //constructor
     public function __construct() {
         $this->id = "";
-        $this->idMenu = "";
-        $this->idRol = "";
+        $this->objMenu = null;
+        $this->objRol = null;
         $this->mensajeOperacion = "";
     }
     
@@ -19,11 +19,11 @@ class MenuRol {
     public function getId() {
         return $this->id;
     }
-    public function getIdMenu() {
-        return $this->idMenu;
+    public function getObjMenu() {
+        return $this->objMenu;
     }
-    public function getIdRol() {
-        return $this->idRol;
+    public function getObjRol() {
+        return $this->objRol;
     }
     public function getMensajeOperacion() {
         return $this->mensajeOperacion;
@@ -33,26 +33,26 @@ class MenuRol {
     public function setId($id) {
         $this->id = $id;
     }
-    public function setIdMenu($idMenu) {
-        $this->idMenu = $idMenu;
+    public function setObjMenu($objMenu) {
+        $this->objMenu = $objMenu;
     }
-    public function setIdRol($idRol) {
-        $this->idRol = $idRol;
+    public function setObjRol($objRol) {
+        $this->objRol = $objRol;
     }
     public function setMensajeOperacion($mensajeOperacion) {
         $this->mensajeOperacion = $mensajeOperacion;
     }
 
     //funcion para setear todos los atributos de la clase
-    public function setear($id, $idMenu, $idRol) {
+    public function setear($id, $objMenu, $objRol) {
         $this->setId($id);
-        $this->setIdMenu($idMenu);
-        $this->setIdRol($idRol);
+        $this->setObjMenu($objMenu);
+        $this->setObjRol($objRol);
     }
 
     //metodo para representar el objeto como cadena
     public function __toString() {
-        return "MenuRol ID: " . $this->getId() . ", Menu ID: " . $this->getIdMenu() . ", Rol ID: " . $this->getIdRol();
+        return "MenuRol ID: " . $this->getId() . ", Menu: " . $this->getObjMenu() . ", Rol: " . $this->getObjRol();
     }
 
     /**
@@ -69,7 +69,16 @@ class MenuRol {
             if ($res > -1) {
                 if ($res > 0) {
                     $row = $base->Registro();
-                    $this->setear($row['id'], $row['idMenu'], $row['idRol']);
+
+                    $objMenu = new Menu();
+                    $objMenu->setId($row['idMenu']);
+                    $objMenu->cargar();
+
+                    $objRol = new Rol();
+                    $objRol->setId($row['idRol']);
+                    $objRol->cargar();
+
+                    $this->setear($row['id'], $objMenu, $objRol);
                     $resp = true;
                 }
             }
@@ -87,7 +96,10 @@ class MenuRol {
     public function insertar() {
         $resp = false;
         $base = new database();
-        $sql = "INSERT INTO menurol(idMenu, idRol) VALUES (" . $this->getIdMenu() . ", " . $this->getIdRol() . ")";
+
+        $idMenu = $this->getObjMenu()->getId();
+        $idRol = $this->getObjRol()->getId();
+        $sql = "INSERT INTO menurol(idMenu, idRol) VALUES (" . $idMenu() . ", " . $idRol . ")";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) > 0) {
                 $resp = true;
@@ -106,9 +118,13 @@ class MenuRol {
     public function modificar() {
         $resp = false;
         $base = new database();
+
+        $idMenu = $this->getObjMenu()->getId();
+        $idRol = $this->getObjRol()->getId();
+
         $sql = "UPDATE menurol SET 
-            idMenu = " . $this->getIdMenu() . ",
-            idRol = " . $this->getIdRol() . " 
+            idMenu = " . $idMenu . ",
+            idRol = " . $idRol . " 
         WHERE id = " . $this->getId();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql) > 0) {
@@ -163,7 +179,16 @@ class MenuRol {
                 if ($res > 0) {
                     while ($row = $base->Registro()) {
                         $obj = new MenuRol();
-                        $obj->setear($row['id'], $row['idMenu'], $row['idRol']);
+
+                        $objMenu = new Menu();
+                        $objMenu->setId($row['idMenu']);
+                        $objMenu->cargar();
+
+                        $objRol = new Rol();
+                        $objRol->setId($row['idRol']);
+                        $objRol->cargar();
+
+                        $obj->setear($row['id'], $objMenu, $objRol);
                         array_push($arreglo, $obj);
                     }
                 }
