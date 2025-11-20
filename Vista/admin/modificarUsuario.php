@@ -130,11 +130,13 @@ if ($id) {
                                 id="rol" 
                                 name="rol" 
                                 value="<?php echo $rolDisplay; ?>" 
-                                
                             >
+                            
+                            
                             <p id="errorPrecio" class="text-sm mt-1"></p>
                         </div>
-
+                        
+                        
                         <div class="mb-4">
                             <label for="estado" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
                             <input 
