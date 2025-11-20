@@ -6,7 +6,7 @@ class Menu {
     private $nombre;
     private $descripcion;
     private $link;
-    private $idPadre;
+    private $objPadre;
     private $deshabilitado;
     private $mensajeOperacion;
 
@@ -16,7 +16,7 @@ class Menu {
         $this->nombre = "";
         $this->descripcion = "";
         $this->link = "";
-        $this->idPadre = "";
+        $this->objPadre = null;
         $this->deshabilitado = "";
         $this->mensajeOperacion = "";
     }
@@ -34,8 +34,8 @@ class Menu {
     public function getLink() {
         return $this->link;
     }
-    public function getIdPadre() {
-        return $this->idPadre;
+    public function getObjPadre() {
+        return $this->objPadre;
     }
     public function getDeshabilitado() {
         return $this->deshabilitado;
@@ -57,8 +57,8 @@ class Menu {
     public function setLink($link) {
         $this->link = $link;
     }
-    public function setIdPadre($idPadre) {
-        $this->idPadre = $idPadre;
+    public function setObjPadre($objPadre) {
+        $this->objPadre = $objPadre;
     }
     public function setDeshabilitado($deshabilitado) {
         $this->deshabilitado = $deshabilitado;
@@ -68,18 +68,18 @@ class Menu {
     }
 
     //funcion para setear todos los atributos de la clase
-    public function setear($id, $nombre, $descripcion, $link, $idPadre, $deshabilitado) {
+    public function setear($id, $nombre, $descripcion, $link, $objPadre, $deshabilitado) {
         $this->setId($id);
         $this->setNombre($nombre);
         $this->setDescripcion($descripcion);
         $this->setLink($link);
-        $this->setIdPadre($idPadre);
+        $this->setObjPadre($objPadre);
         $this->setDeshabilitado($deshabilitado);
     }
 
     //metodo para representar el objeto como cadena
     public function __toString() {
-        return "Menu ID: " . $this->getId() . ", Nombre: " . $this->getNombre() . ", Descripcion: " . $this->getDescripcion() . ", Link: " . $this->getLink() . ", ID Padre: " . $this->getIdPadre() . ", Deshabilitado: " . $this->getDeshabilitado();
+        return "Menu ID: " . $this->getId() . ", Nombre: " . $this->getNombre() . ", Descripcion: " . $this->getDescripcion() . ", Link: " . $this->getLink() . ", ID Padre: " . $this->getObjPadre() . ", Deshabilitado: " . $this->getDeshabilitado();
     }
 
     /**
@@ -96,7 +96,14 @@ class Menu {
             if ($res > -1) {
                 if ($res > 0) {
                     $row = $base->Registro();
-                    $this->setear($row['id'], $row['nombre'], $row['descripcion'], $row['link'], $row['idPadre'], $row['deshabilitado']);
+
+                    $objPadre = null;
+                    if (!is_null($row['idPadre'])) {
+                        $objPadre = new Menu();
+                        $objPadre->setId($row['idPadre']);
+                        $objPadre->cargar();
+                    }
+                    $this->setear($row['id'], $row['nombre'], $row['descripcion'], $row['link'], $objPadre, $row['deshabilitado']);
                     $resp = true;
                 }
             }
@@ -114,11 +121,16 @@ class Menu {
     public function insertar() {
         $resp = false;
         $base = new database();
+
+        $idPadre = "NULL";
+        if (!is_null($this->getObjPadre())) {
+            $idPadre = $this->getObjPadre()->getId();
+        }
         $sql = "INSERT INTO menu (nombre, descripcion, link, idPadre, deshabilitado) 
         VALUES ('" . $this->getNombre() . "',
          '" . $this->getDescripcion() . "',
           '" . $this->getLink() . "',
-           " . $this->getIdPadre() . ",
+           " . $idPadre . ",
             " . $this->getDeshabilitado() . ")";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
@@ -140,11 +152,16 @@ class Menu {
     public function modificar() {
         $resp = false;
         $base = new database();
+
+        $idPadre = "NULL";
+        if (!is_null($this->getObjPadre())) {
+            $idPadre = $this->getObjPadre()->getId();
+        }
         $sql = "UPDATE menu SET 
                 nombre = '" . $this->getNombre() . "',
                 descripcion = '" . $this->getDescripcion() . "',
                 link = '" . $this->getLink() . "',
-                idPadre = " . $this->getIdPadre() . ",
+                idPadre = " . $idPadre . ",
                 deshabilitado = " . $this->getDeshabilitado() . "
                 WHERE id = " . $this->getId();
         if ($base->Iniciar()) {
@@ -222,7 +239,14 @@ class Menu {
                 if ($res > 0) {
                     while ($row = $base->Registro()) {
                         $obj = new Menu();
-                        $obj->setear($row['id'], $row['nombre'], $row['descripcion'], $row['link'], $row['idPadre'], $row['deshabilitado']);
+
+                        $objPadre = null;
+                        if (!is_null($row['idPadre'])) {
+                            $objPadre = new Menu();
+                            $objPadre->setId($row['idPadre']);
+                            $objPadre->cargar();
+                        }
+                        $obj->setear($row['id'], $row['nombre'], $row['descripcion'], $row['link'], $objPadre, $row['deshabilitado']);
                         array_push($arreglo, $obj);
                     }
                 }
