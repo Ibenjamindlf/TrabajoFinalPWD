@@ -95,41 +95,18 @@ class Email
         try {
             $mail = $this->crearMailer();
             $mail->addAddress($this->email, $this->nombre);
-            
-            $mail->Subject = '¡Gracias por tu compra en Vinilos Truchos!';
-            
-            // Construccion HTML
-            $listaHTML = '<ul style="padding-left: 20px;">';
-            foreach ($productos as $item) {
+            $mail->Subject = 'Resumen de Compra - Vinilos Truchos';
 
-                $subtotal = $item['precio'] * $item['cantidad'];
-                $listaHTML .= "<li style='margin-bottom: 5px;'>";
-                $listaHTML .= "<strong>" . htmlspecialchars($item['nombre']) . "</strong>";
-                $listaHTML .= " x " . $item['cantidad'];
-                $listaHTML .= " - $" . number_format($subtotal, 2);
-                $listaHTML .= "</li>";
+            $lista = "<ul>";
+            foreach ($productos as $p) {
+                $lista .= "<li>" . htmlspecialchars($p['nombre']) . " x" . $p['cantidad'] . " ($" . $p['precio'] . ")</li>";
             }
-            $listaHTML .= '</ul>';
+            $lista .= "</ul>";
 
-            // Cuerpo del Mensaje
-            $contenido = "<html>";
-            $contenido .= "<h2>¡Tu compra ha sido finalizada con éxito!</h2>";
-            $contenido .= "<p>Hola <strong>" . htmlspecialchars($this->nombre) . "</strong>, gracias por confiar en nosotros.</p>";
-            $contenido .= "<h3>Detalle de tu pedido:</h3>";
-            $contenido .= $listaHTML;
-            $contenido .= "<h3 style='color: #e65100;'>Precio Final: $" . number_format($total, 2) . "</h3>";
-            $contenido .= "<hr>";
-            $contenido .= "<p><small>Si tenés alguna duda, respondé a este correo.</small></p>";
-            $contenido .= "</html>";
-
-            $mail->Body = $contenido;
-
+            $mail->Body = "<h1>¡Gracias por tu compra!</h1><p>Detalle:</p>$lista<h3>Total: $$total</h3>";
             $mail->send();
             return true;
-
-        } catch (Exception $e) {
-            return false;
-        }
+        } catch (Exception $e) { return false; }
     }
 }
 
