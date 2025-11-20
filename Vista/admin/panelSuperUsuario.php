@@ -92,7 +92,7 @@ if ($arrayUsuario != null) {
 
                                     </td>
                                     <td class="border border-gray-300 p-3 align-middle text-center">
-                                        <a href="modificarProducto.php?id=<?php echo $unUsuario->getId(); ?>" 
+                                        <a href="modificarUsuario.php?id=<?php echo $unUsuario->getId(); ?>" 
                                            class="py-1 px-3 text-sm rounded-md shadow-sm bg-yellow-500 text-black hover:bg-yellow-600 mt-2 block">
                                             Modificar
                                         </a>
