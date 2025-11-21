@@ -47,7 +47,7 @@ include_once('../Vista/structure/header.php');
                 </div>
 
                 <!-- Botón cerrar sesión -->
-                <a href="/TrabajoFinalPWD/Vista/accion/accionLogout.php"
+                <a href="/TrabajoFinalPWD/Vista/accion/Login/accionLogout.php"
                    class="block w-full bg-red-600 text-white py-2 rounded-lg font-medium hover:bg-red-700 transition">
                     Cerrar sesión
                 </a>

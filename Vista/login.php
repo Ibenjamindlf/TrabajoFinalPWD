@@ -56,7 +56,7 @@
             endif; 
             ?>
 
-            <form id="loginForm" class="p-6 space-y-4" action="./accion/accionLogin.php" method="post">
+            <form id="loginForm" class="p-6 space-y-4" action="./accion/Login/accionLogin.php" method="post">
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input id="email" name="email" type="email"
