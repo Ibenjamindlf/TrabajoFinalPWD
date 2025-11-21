@@ -30,7 +30,7 @@ requireAtLeastRole($session, ROLE_ADMIN, '/TrabajoFinalPWD/inicio.php'); // opci
             </div>
 
             <div class="p-6"> 
-                <form action="../accion/accionNuevoProducto.php" method="POST" enctype="multipart/form-data" id="formProducto" >
+                <form action="../accion/Producto/accionNuevoProducto.php" method="POST" enctype="multipart/form-data" id="formProducto" >
 
                     <div class="mb-4"> 
                         <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre del producto</label>
