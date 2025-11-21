@@ -1,12 +1,4 @@
 <?php
-// include_once("../../Control/ABMProducto.php");
-// $abmProducto = new ABMProducto();
-// $arrayProductos = $abmProducto->buscar(NULL);
-// if ($arrayProductos != null) {
-//     $cantProductos = count($arrayProductos);
-// } else {
-//     $cantProductos = 0;
-// }
 require_once __DIR__ . '/../../Control/Session.php';
 require_once __DIR__ . '/../../Control/autenticacion.php';
 require_once __DIR__ . '/../../Control/roles.php';
@@ -22,7 +14,6 @@ include_once(__DIR__ . "/../../Control/ABMUsuarioRol.php");
 
 $id = $_GET['id'] ?? null;
 
-// print_r($_GET);
 
 $abmUsuario = new ABMUsuario();
 $Usuario = null;
@@ -57,7 +48,7 @@ if ($id) {
 
             <div class="p-6">
                 <?php if ($Usuario): ?>
-                    <form action="../accion/accionModificarProducto.php" method="POST" enctype="multipart/form-data" id="formModUsuario">
+                    <form action="../accion//Producto/accionModificarProducto.php" method="POST" enctype="multipart/form-data" id="formModUsuario">
 
                         <div class="mb-4">
                             <label for="id" class="block text-sm font-medium text-gray-700 mb-1">ID Usuario</label>
