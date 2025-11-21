@@ -15,7 +15,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="../../Vista/accion/accionGuardarPass.php" method="post" class="space-y-4">
+            <form action="../../Vista/accion/Pass/accionGuardarPass.php" method="post" class="space-y-4">
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                 
                 <div>

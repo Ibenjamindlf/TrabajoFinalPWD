@@ -10,7 +10,7 @@
                 <p class="text-sm text-gray-500 mt-1">Ingresá tu email y te enviaremos un enlace para restablecerla.</p>
             </div>
 
-            <form id="recoverForm" class="p-6 space-y-4" action="/TrabajoFinalPWD/Vista/accion/accionSolicitarRecuperacion.php" method="post" novalidate>
+            <form id="recoverForm" class="p-6 space-y-4" action="/TrabajoFinalPWD/Vista/accion/Pass/accionSolicitarRecuperacion.php" method="post" novalidate>
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <input id="email" name="email" type="email" required
