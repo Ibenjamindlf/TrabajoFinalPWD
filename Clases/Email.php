@@ -51,7 +51,7 @@ class Email
             $mail->Subject = 'Confirma tu Cuenta';
             $contenido = "<html>";
             $contenido .= "<p><strong>Hola " . htmlspecialchars($this->nombre) . "</strong> Has Creado tu Cuenta en Vinilos Truchos, solo debes confirmarla presionando en el siguiente enlace:</p>";
-            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/Vista/accion/accionConfirmarCuenta.php?token=" . $this->token . "'>Confirmar Cuenta</a></p>";
+            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/Vista/accion/Login/accionConfirmarCuenta.php?token=" . $this->token . "'>Confirmar Cuenta</a></p>";
             $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes ignorar el mensaje</p>";
             $contenido .= "</html>";
             $mail->Body = $contenido;
