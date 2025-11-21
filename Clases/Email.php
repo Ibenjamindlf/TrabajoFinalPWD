@@ -76,7 +76,7 @@ class Email
             $mail->Subject = 'Reestablece tu Password';
             $contenido = "<html>";
             $contenido .= "<p><strong>Hola " . htmlspecialchars($this->nombre) . "</strong> Has solicitado reestablecer tu password, sigue el siguiente enlace para hacerlo. </p>";
-            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/Vista/accion/accionRecuperarPass.php?token=" . $this->token . "'>Reestablecer Password</a></p>";
+            $contenido .= "<p>Presiona Aquí: <a href='" . $_ENV['APP_URL'] . "/Vista/accion/Pass/accionRecuperarPass.php?token=" . $this->token . "'>Reestablecer Password</a></p>";
             $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes ignorar el mensaje</p>";
             $contenido .= "</html>";
             $mail->Body = $contenido;
