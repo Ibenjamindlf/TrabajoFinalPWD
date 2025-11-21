@@ -73,7 +73,7 @@ if ($arrayProductos != null) {
                                            class="py-1 px-3 text-sm rounded-md shadow-sm bg-yellow-500 text-black hover:bg-yellow-600 mt-2 block">
                                             Modificar
                                         </a>
-                                        <a href="../accion/accionEliminarProducto.php?id=<?php echo $unProducto->getId(); ?>" 
+                                        <a href="../accion/Producto/accionEliminarProducto.php?id=<?php echo $unProducto->getId(); ?>" 
                                            class="py-1 px-3 text-sm rounded-md shadow-sm bg-red-600 text-white hover:bg-red-700 mt-2 block">
                                             Eliminar
                                         </a>

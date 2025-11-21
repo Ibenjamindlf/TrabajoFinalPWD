@@ -203,6 +203,139 @@ class ABMProducto {
 
         return $resp;
     }
+
+
+    // Este método contiene la lógica de negocio que sacamos del Accion.
+    public function subirYCrear($datos) {
+        $resultado = [
+            'exito' => false, 
+            'mensaje' => ''
+        ];
+
+
+        if (isset($datos['imagen']) && $datos['imagen']['error'] === UPLOAD_ERR_OK) {
+            
+
+            $dirFisico = __DIR__ . "/../Vista/sources/img/"; 
+            $dirWeb = "Vista/sources/img/"; 
+
+            $archivo = $datos['imagen'];
+            $nombreArchivo = uniqid() . "_" . basename($archivo['name']); 
+            $rutaDestino = $dirFisico . $nombreArchivo;
+
+            if (move_uploaded_file($archivo['tmp_name'], $rutaDestino)) {
+                
+
+                $datos['imagen'] = $dirWeb . $nombreArchivo;
+
+                if ($this->alta($datos)) {
+                    $resultado['exito'] = true;
+                    $resultado['mensaje'] = 'Se ingresó correctamente el producto.';
+                } else {
+                    unlink($rutaDestino);
+                    $resultado['mensaje'] = 'Hubo un error al insertar en la base de datos.';
+                    if(isset($_SESSION['errores_abm'])) {
+                        $resultado['mensaje'] .= " " . implode(", ", $_SESSION['errores_abm']);
+                    }
+                }
+
+            } else {
+                $resultado['mensaje'] = 'Error al mover el archivo de imagen al servidor.';
+            }
+
+        } else {
+            $resultado['mensaje'] = 'No se subió ninguna imagen o hubo un error en la carga.';
+        }
+
+        return $resultado;
+    }
+
+
+    //Maneja la modificación
+    public function subirYModificar($datos) {
+        $resultado = ['exito' => false, 'mensaje' => ''];
+
+        $lista = $this->buscar(['id' => $datos['id']]);
+        if (empty($lista)) {
+            return ['exito' => false, 'mensaje' => 'El producto no existe.'];
+        }
+        $productoActual = $lista[0];
+
+        if (isset($datos['imagen']) && $datos['imagen']['error'] === UPLOAD_ERR_OK) {
+            
+            $rutaFisicaVieja = __DIR__ . "/../" . $productoActual->getimagen(); 
+            
+            if (file_exists($rutaFisicaVieja)) {
+                unlink($rutaFisicaVieja);
+            }
+
+            $dirFisico = __DIR__ . "/../Vista/sources/img/"; 
+            $dirWeb = "Vista/sources/img/";
+
+            $archivo = $datos['imagen'];
+            $nombreArchivo = uniqid() . "_" . basename($archivo['name']);
+            $rutaDestino = $dirFisico . $nombreArchivo;
+
+            if (move_uploaded_file($archivo['tmp_name'], $rutaDestino)) {
+                $datos['imagen'] = $dirWeb . $nombreArchivo; 
+            } else {
+                return ['exito' => false, 'mensaje' => 'Error al subir la nueva imagen.'];
+            }
+
+        } else {
+            $datos['imagen'] = $productoActual->getimagen();
+        }
+
+        if ($this->modificacion($datos)) {
+            $resultado['exito'] = true;
+            $resultado['mensaje'] = 'Se modificó correctamente el producto.';
+        } else {
+            $resultado['mensaje'] = 'Hubo un error al modificar el producto en la BD.';
+            if(isset($_SESSION['errores_abm'])) {
+                $resultado['mensaje'] .= " " . implode(", ", $_SESSION['errores_abm']);
+            }
+        }
+
+        return $resultado;
+    }
+
+
+    //Elimina el registro de la BD y de la página
+    public function eliminarProducto($datos) {
+        $resultado = ['exito' => false, 'mensaje' => ''];
+
+        if (!isset($datos['id'])) {
+            return ['exito' => false, 'mensaje' => 'No se recibió el ID del producto.'];
+        }
+
+        $lista = $this->buscar(['id' => $datos['id']]);
+        
+        if (count($lista) > 0) {
+            $producto = $lista[0];
+            $rutaImagenRelativa = $producto->getimagen(); 
+
+
+            $rutaFisica = __DIR__ . "/../" . $rutaImagenRelativa;
+
+
+            if (!empty($rutaImagenRelativa) && file_exists($rutaFisica)) {
+                unlink($rutaFisica);
+            }
+
+            if ($this->baja($datos)) {
+                $resultado['exito'] = true;
+                $resultado['mensaje'] = 'Se eliminó correctamente el producto.';
+            } else {
+                $resultado['mensaje'] = 'Hubo un error al eliminar el producto de la base de datos.';
+            }
+
+        } else {
+            $resultado['mensaje'] = 'El producto que intenta eliminar no existe.';
+        }
+
+        return $resultado;
+    }
+
 }
 
 ?>
