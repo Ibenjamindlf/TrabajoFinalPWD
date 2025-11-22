@@ -4,8 +4,8 @@ include_once(__DIR__ . '/../Modelo/compraProducto.php');
 include_once(__DIR__ . '/../Modelo/compra.php'); 
 include_once(__DIR__ . '/../Modelo/Productos.php'); 
 include_once(__DIR__ . '/validadores/Validador.php');
-
 include_once(__DIR__ . '/ABMProducto.php');
+include_once(__DIR__ . '/ABMCompra.php');
 
 class ABMCompraProducto {
 
@@ -191,6 +191,177 @@ class ABMCompraProducto {
         }
         return $resp;
     }
+
+
+    // Elimina un ítem del carrito y DEVUELVE el stock al producto.
+    public function quitarProductoDelCarrito($param) {
+        $exito = false;
+        $idCompraProducto = $param['idCompraProducto'] ?? null;
+
+        if ($idCompraProducto) {
+            // Buscamos el ítem del carrito antes de borrarlo
+            // (Necesitamos saber qué producto es y cuánta cantidad tenía)
+            $items = $this->buscar(['id' => $idCompraProducto]);
+            
+            if (!empty($items)) {
+                $itemCarrito = $items[0];
+                $idProducto = $itemCarrito->getIdProducto();
+                $cantidadADevolver = $itemCarrito->getCantidad();
+
+                // Buscamos el Producto original para devolver el stock
+                $abmProducto = new ABMProducto();
+                $prodList = $abmProducto->buscar(['id' => $idProducto]);
+
+                if (!empty($prodList)) {
+                    $producto = $prodList[0];
+                    
+                    // Devolvemos el stock
+                    $nuevoStock = $producto->getStock() + $cantidadADevolver;
+                    $producto->estado($nuevoStock); //
+                }
+
+                // Lo borramos físicamente del carrito
+                if ($this->baja(['id' => $idCompraProducto])) {
+                    $exito = true;
+                }
+            }
+        }
+        return $exito;
+    }
+
+
+
+    // Función Maestra para agregar al carrito
+    // Manejamos carrito, crear carrito, verificar stock, sumar cantidad o insertar de nuevo
+    public function agregarProductoAlCarrito($param) {
+        $idUsuario = $param['idUsuario'];
+        $idProducto = $param['idProducto'];
+        $cantidad = $param['cantidad'];
+
+        $abmCompra = new ABMCompra();
+        $abmProducto = new ABMProducto();
+
+        // Obtenemos o creamos Carrito
+        $idCompraActiva = $abmCompra->obtenerCarritoActivo($idUsuario);
+        if ($idCompraActiva == null) {
+            $idCompraActiva = $abmCompra->crearCarrito($idUsuario);
+            if ($idCompraActiva == null) return false; // Falló crear compra
+        }
+
+        //  Verificar Stock Global
+        $prodArr = $abmProducto->buscar(['id' => $idProducto]);
+        if (empty($prodArr)) return false; // Producto no existe
+        $productoObj = $prodArr[0];
+
+        if ($productoObj->getStock() < $cantidad) return false; // Sin stock
+
+        // Verificar si el producto ya está en el carrito
+        $itemsEnCarrito = $this->buscar([
+            'idCompra' => $idCompraActiva,
+            'idProducto' => $idProducto
+        ]);
+
+        if (!empty($itemsEnCarrito)) {
+
+            $item = $itemsEnCarrito[0];
+            $nuevaCantidad = $item->getCantidad() + $cantidad;
+
+            $exito = $this->modificacion([
+                'id' => $item->getId(),
+                'idCompra' => $idCompraActiva,
+                'idProducto' => $idProducto,
+                'cantidad' => $nuevaCantidad
+            ]);
+        } else {
+            $exito = $this->alta([
+                'idCompra' => $idCompraActiva,
+                'idProducto' => $idProducto,
+                'cantidad' => $cantidad
+            ]);
+        }
+
+        // Descontar Stock
+        if ($exito) {
+            $nuevoStock = $productoObj->getStock() - $cantidad;
+            $productoObj->estado($nuevoStock);
+        }
+
+        return $exito;
+    }
+
+
+    // Suma 1 a la cantidad del ítem en el carrito.
+    // Verifica stock antes de sumar.
+    public function sumarCantidad($param) {
+        $resp = false; 
+        $id = $param['id'];
+        $itemArr = $this->buscar(['id' => $id]);
+        
+        if (!empty($itemArr)) {
+            $item = $itemArr[0];
+            
+            // Buscamos el producto para ver si hay stock
+            $abmProd = new ABMProducto();
+            $prodArr = $abmProd->buscar(['id' => $item->getIdProducto()]);
+            
+            // Verificamos que el producto exista y tenga stock
+            if (!empty($prodArr)) {
+                $prod = $prodArr[0];
+                
+                if ($prod->getStock() >= 1) {
+                    $nuevaCant = $item->getCantidad() + 1;
+                    $item->setCantidad($nuevaCant);
+                    
+                    // Si se modifica el ítem en el carrito, descontamos el stock global
+                    if ($item->modificar()) {
+                        $prod->estado($prod->getStock() - 1);
+                        $resp = true; 
+                    }
+                }
+            }
+        }
+        
+        return $resp;
+    }
+
+    // Resta 1 a la cantidad. Si llega a 0, elimina el ítem.
+    // Devuelve stock al producto.
+
+    public function restarCantidad($param) {
+        $resp = false; 
+        $id = $param['id'];
+        $itemArr = $this->buscar(['id' => $id]);
+        
+        if (!empty($itemArr)) {
+            $item = $itemArr[0];
+            $nuevaCant = $item->getCantidad() - 1;
+
+            // Siempre devolvemos 1 al stock global
+            $abmProd = new ABMProducto();
+            $prodArr = $abmProd->buscar(['id' => $item->getIdProducto()]);
+            
+            if (!empty($prodArr)) {
+                $prod = $prodArr[0];
+                $prod->estado($prod->getStock() + 1); 
+            }
+
+            // Decidimos si modificamos o borramos
+            if ($nuevaCant > 0) {
+                $item->setCantidad($nuevaCant);
+                if ($item->modificar()) {
+                    $resp = true;
+                }
+            } else {
+                if ($this->baja(['id' => $id])) {
+                    $resp = true;
+                }
+            }
+        }
+        
+        return $resp; 
+    }
+
+
 }
 
 ?>

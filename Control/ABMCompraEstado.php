@@ -27,7 +27,7 @@ class ABMCompraEstado {
             }
             
             if (isset($param['fechaFinNull']) && $param['fechaFinNull'] == true) {
-                $where .= " and fechaFin IS NULL";
+                $where .= " and (fechaFin IS NULL OR fechaFin = '0000-00-00 00:00:00')";
             }
         }
         $arreglo = compraEstado::seleccionar($where);

@@ -1,12 +1,8 @@
 <?php
-require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/ABMCompra.php';
-require_once __DIR__ . '/../../Control/ABMCompraProducto.php';
-require_once __DIR__ . '/../../Control/ABMCompraEstado.php';
-require_once __DIR__ . '/../../Control/ABMProducto.php'; 
+require_once __DIR__ . '/../../../Control/Session.php';
+require_once __DIR__ . '/../../../Control/ABMCompraProducto.php';
 
 $session = new Session();
-
 
 if (!$session->activa()) {
     header('Location: /TrabajoFinalPWD/Vista/login.php');
@@ -16,86 +12,35 @@ if (!$session->activa()) {
 $idUsuario = $session->getIdUsuario();
 $idProducto = $_GET['idProducto'] ?? null;
 
+// Validar Datos
 if (!$idProducto) {
     header('Location: /TrabajoFinalPWD/Vista/tienda.php');
     exit;
 }
 
-$abmCompra = new ABMCompra();
-$abmCompraEstado = new ABMCompraEstado();
-$comprasUsuario = $abmCompra->buscar(['idUsuario' => $idUsuario]);
-$idCompraActiva = null;
-
-if (!empty($comprasUsuario)) {
-    $comprasUsuario = array_reverse($comprasUsuario);
-    foreach ($comprasUsuario as $compra) {
-        $estados = $abmCompraEstado->buscar(['idCompra' => $compra->getId(), 'fechaFinNull' => true]);
-        if (!empty($estados) && $estados[0]->getIdEstadoTipo() == 1) {
-            $idCompraActiva = $compra->getId();
-            break;
-        }
-    }
-}
-
-if ($idCompraActiva == null) {
-    if ($abmCompra->alta(['idUsuario' => $idUsuario])) {
-        $compras = $abmCompra->buscar(['idUsuario' => $idUsuario]);
-        $idCompraActiva = end($compras)->getId();
-        $abmCompraEstado->alta(['idCompra' => $idCompraActiva, 'idEstadoTipo' => 1]);
-    } else {
-        header('Location: /TrabajoFinalPWD/Vista/tienda.php?msg=error_compra');
-        exit;
-    }
-}
-
+// Llamar al Controlador 
 $abmCompraProducto = new ABMCompraProducto();
-$abmProducto = new ABMProducto();
-
-
-$itemsEnCarrito = $abmCompraProducto->buscar([
-    'idCompra' => $idCompraActiva,
-    'idProducto' => $idProducto
+$exito = $abmCompraProducto->agregarProductoAlCarrito([
+    'idUsuario' => $idUsuario,
+    'idProducto' => $idProducto,
+    'cantidad' => 1
 ]);
 
-$exito = false;
-
-if (!empty($itemsEnCarrito)) {
-    $itemExistente = $itemsEnCarrito[0];
-    $nuevaCantidad = $itemExistente->getCantidad() + 1;
-    
-
-    $prodObj = $abmProducto->buscar(['id' => $idProducto])[0];
-    if ($prodObj->getStock() >= 1) {
-        $exito = $abmCompraProducto->modificacion([
-            'id' => $itemExistente->getId(),
-            'idCompra' => $idCompraActiva,
-            'idProducto' => $idProducto,
-            'cantidad' => $nuevaCantidad
-        ]);
-
-        
-        if ($exito) {
-            $nuevoStockGlobal = $prodObj->getStock() - 1;
-            $prodObj->estado($nuevoStockGlobal); 
-        }
-    } else {
-
-        header("Location: /TrabajoFinalPWD/Vista/cart.php?msg=sin_stock");
-        exit;
-    }
-
-} else {
-    $exito = $abmCompraProducto->alta([
-        'idCompra' => $idCompraActiva,
-        'idProducto' => $idProducto,
-        'cantidad' => 1
-    ]);
-}
+// VERIFICAMOS SI FUE UN PEDIDO AJAX (JAVASCRIPT)
+$esAjax = isset($_GET['ajax']) && $_GET['ajax'] == 'true';
 
 if ($exito) {
-    header("Location: /TrabajoFinalPWD/Vista/cart.php");
+    if ($esAjax) {
+        echo json_encode(['status' => 'success', 'msg' => 'Producto agregado']);
+    } else {
+        header("Location: /TrabajoFinalPWD/Vista/cart.php");
+    }
 } else {
-    header("Location: /TrabajoFinalPWD/Vista/tienda.php?msg=error_agregar");
+    if ($esAjax) {
+        echo json_encode(['status' => 'error', 'msg' => 'No se pudo agregar (Stock o Error)']);
+    } else {
+        header("Location: /TrabajoFinalPWD/Vista/tienda.php?msg=error_agregar");
+    }
 }
 exit;
 ?>

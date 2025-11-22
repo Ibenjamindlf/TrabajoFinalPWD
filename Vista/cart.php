@@ -55,7 +55,7 @@ include_once('../Vista/structure/header.php');
                 <a href="/TrabajoFinalPWD/Vista/tienda.php" class="text-orange-600 hover:underline">Ir a la tienda</a>
             </div>
         <?php else: ?>
-            <div class="space-y-4">
+            <div class="space-y-4" id="lista-productos">
                 <?php $precioTotal = 0; ?>
                 <?php foreach ($comprasProductos as $item): ?>
                     <?php 
@@ -65,18 +65,40 @@ include_once('../Vista/structure/header.php');
                         $subtotal = $producto->getPrecio() * $item->getCantidad();
                         $precioTotal += $subtotal;
                     ?>
-                    <div class="flex items-center gap-4 p-4 border rounded-lg bg-gray-50">
+                    
+                    <div class="flex items-center gap-4 p-4 border rounded-lg bg-gray-50" id="fila-<?= $item->getId(); ?>">
                         <img src="/TrabajoFinalPWD/<?php echo $producto->getImagen(); ?>" class="w-20 h-20 object-cover rounded border">
+                        
                         <div class="flex-1">
                             <h3 class="font-medium"><?= $producto->getNombre(); ?></h3>
-                            <p class="text-gray-500 text-sm">Cantidad: <?= $item->getCantidad(); ?></p>
-                            <p class="text-orange-600 font-bold">$<?= number_format($subtotal, 2); ?></p>
+                            <p class="text-orange-600 font-bold">
+                                $<span id="subtotal-<?= $item->getId(); ?>"><?= number_format($subtotal, 2, ',', '.'); ?></span>
+                            </p>
+                            <input type="hidden" id="precio-unitario-<?= $item->getId(); ?>" value="<?= $producto->getPrecio(); ?>">
                         </div>
+
+                        <div class="flex items-center gap-3">
+                            <button onclick="actualizarCarrito(<?= $item->getId(); ?>, 'restar')" 
+                                    class="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-gray-700 font-bold">-</button>
+                            
+                            <span class="font-medium w-8 text-center" id="cantidad-<?= $item->getId(); ?>">
+                                <?= $item->getCantidad(); ?>
+                            </span>
+                            
+                            <button onclick="actualizarCarrito(<?= $item->getId(); ?>, 'sumar')" 
+                                    class="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-gray-700 font-bold">+</button>
+                        </div>
+
+                        <button onclick="actualizarCarrito(<?= $item->getId(); ?>, 'quitar')" 
+                                class="ml-4 text-red-600 hover:text-red-800 font-semibold text-sm">
+                            Quitar
+                        </button>
                     </div>
                 <?php endforeach; ?>
             </div>
+
             <div class="mt-6 border-t pt-4 flex justify-between items-center">
-                <div class="text-xl font-bold">Total: $<?php echo number_format($precioTotal, 2); ?></div>
+                <div class="text-xl font-bold">Total: $<span id="total-compra"><?= number_format($precioTotal, 2, ',', '.'); ?></span></div>
                 
                 <form method="POST" action="../Control/createCheckout.php">
                     <button type="submit" class="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700 transition">
@@ -87,6 +109,8 @@ include_once('../Vista/structure/header.php');
         <?php endif; ?>
     </div>
 </main>
+
+<script src="sources/js/funcionesCarrito.js"></script>
 <?php include_once ('../Vista/structure/footer.php'); ?>
 </body>
 </html>
