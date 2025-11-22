@@ -61,7 +61,7 @@ try {
             ],
             'quantity' => 1,
         ]],
-        'success_url' => $_ENV['APP_URL'] . '/Vista/accion/accionFinalizarCompra.php?session_id={CHECKOUT_SESSION_ID}',
+        'success_url' => $_ENV['APP_URL'] . '/Vista/accion/Carrito/accionFinalizarCompra.php?session_id={CHECKOUT_SESSION_ID}',
         'cancel_url'  => $_ENV['APP_URL'] . '/Vista/cart.php?msg=cancelado',
     ]);
     header("Location: " . $sessionStripe->url);
