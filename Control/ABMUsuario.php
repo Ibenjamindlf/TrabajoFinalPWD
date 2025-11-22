@@ -258,6 +258,97 @@ class ABMUsuario {
         return null;
     }
 
+/* Inicio funciones RAMA MATI (DataBase_Mati)*/    
+    
+public function procesarLogin($datos) {
+    $session = new Session(); 
+    $urlFallida = '/TrabajoFinalPWD/Vista/login.php';
+    $urlExitosa = '/TrabajoFinalPWD/Vista/tienda.php';
+    $urlRedireccion = $urlFallida; 
+
+    if (!isset($datos['mail']) || !Validador::esEmailValido($datos['mail'])) {
+        $_SESSION['errores_abm'] = "El formato del email no es válido.";
+        return ['urlRedireccion' => $urlRedireccion];
+    }
+    
+    $usuarioValidado = $this->login($datos); 
+
+    if ($usuarioValidado != null) {
+        
+        $session->iniciar($usuarioValidado);
+        $urlRedireccion = $urlExitosa;
+        
+    } else {
+        
+        $_SESSION['errores_abm'] = "Email o contraseña incorrectos, o la cuenta no ha sido confirmada.";
+    }
+
+    return [
+        'urlRedireccion' => $urlRedireccion
+    ];
+}
+
+
+/**
+ * Procesa el intento de registro: valida los datos, da de alta al usuario
+ */
+public function procesarRegistro($datos) {
+    
+    include_once(__DIR__ . '/../validadores/Validador.php'); 
+    include_once(__DIR__ . '/../Clases/Email.php'); 
+
+    $urlFallida = '/TrabajoFinalPWD/Vista/register.php';
+    $urlExitosa = '/TrabajoFinalPWD/Vista/auth/confirmarCuenta.php';
+    $urlRedireccion = $urlFallida; 
+    $errores = [];
+
+    if (!Validador::noEstaVacio($datos['name'] ?? '')) {
+        $errores[] = "El nombre es obligatorio.";
+    }
+    if (!Validador::esEmailValido($datos['email'] ?? '')) {
+        $errores[] = "El email no es válido.";
+    }
+    if (!Validador::esPasswordSegura($datos['password'] ?? '')) {
+        $errores[] = "La contraseña debe tener al menos 8 caracteres.";
+    }
+    if (($datos['password'] ?? '') !== ($datos['confirmPassword'] ?? '')) {
+        $errores[] = "Las contraseñas no coinciden.";
+    }
+
+    if (!empty($errores)) {
+        $_SESSION['errores_abm'] = $errores;
+        return ['urlRedireccion' => $urlRedireccion]; 
+    }
+
+    $token = uniqid();
+
+    $datosUsuario = [
+        'nombre' => $datos['name'],
+        'mail' => $datos['email'],
+        'password' => $datos['password'],
+        'token' => $token,
+        'confirmado' => 0 
+    ];
+
+    if ($this->alta($datosUsuario)) {
+        try {
+            $email = new Email($datosUsuario['mail'], $datosUsuario['nombre'], $datosUsuario['token']);
+            $email->enviarConfirmacion();
+            $urlRedireccion = $urlExitosa;
+        } catch (\Exception $e) {
+            $_SESSION['errores_abm'] = ["Usuario registrado, pero falló el envío del email de confirmación."];
+            $urlRedireccion = $urlFallida;
+        }
+        
+    } else {
+        $_SESSION['errores_abm'] = ["El email ya se encuentra registrado o hubo un error interno."];
+    }
+    return ['urlRedireccion' => $urlRedireccion];
+}
+/* FIN funciones RAMA MATI (DataBase_Mati)*/ 
+  
+  
+/* INICIO funciones en main (previo conflicto) */
     /**
      * Maneja el proceso de solicitar recuperación de contraseña.
      * Retorna true si el formato del email es válido (independientemente de si existe o no).
@@ -364,6 +455,62 @@ class ABMUsuario {
         return $resp;
     }
 
+  /* FIN funciones en main (previo conflicto) */
+  
+/**
+ * Procesa la confirmación de cuenta usando un token de URL (GET).
+ */
+public function confirmarCuentaPorToken($token) {
+    include_once(__DIR__ . '/../validadores/Validador.php'); 
+    
+    $errores = [];
+    
+    if (!Validador::noEstaVacio($token)) {
+        $errores[] = "Token de confirmación no válido o ausente.";
+    }
+
+    if (!empty($errores)) {
+        $_SESSION['mensaje_error'] = $errores;
+        return ['exito' => false];
+    }
+
+    $usuariosEncontrados = $this->buscar(['token' => $token]);
+
+    if ($usuariosEncontrados != null && count($usuariosEncontrados) > 0) {
+        
+        $usuario = $usuariosEncontrados[0]; 
+        
+        $usuario->setConfirmado(1);
+        $usuario->setToken(null);
+
+        if ($usuario->modificar()) {
+            
+            $_SESSION['mensaje_exito'] = "¡Tu cuenta ha sido confirmada exitosamente! Ya puedes iniciar sesión.";
+            return ['exito' => true];
+            
+        } else {
+            $errores[] = "No se pudo actualizar la cuenta en la base de datos. Inténtalo más tarde.";
+        }
+        
+    } else {
+        $errores[] = "El token no es válido o la cuenta ya ha sido confirmada.";
+    }
+
+    if (!empty($errores)) {
+        $_SESSION['mensaje_error'] = $errores;
+    }
+    
+    return ['exito' => false];
 }
+
+
+}
+
+
+
+
+
+
+
 
 ?>

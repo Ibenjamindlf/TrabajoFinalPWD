@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ . '/../../Control/Session.php');
+include_once(__DIR__ . '/../../../Control/Session.php');
 
 
 $session = new Session();
