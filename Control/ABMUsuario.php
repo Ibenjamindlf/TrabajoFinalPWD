@@ -2,7 +2,7 @@
 
 include_once (__DIR__ . '/../Modelo/Usuario.php');
 include_once (__DIR__ . '/validadores/Validador.php');
-
+include_once (__DIR__ . '/../Clases/Email.php');
 
 class ABMUsuario {
 
@@ -258,7 +258,7 @@ class ABMUsuario {
         return null;
     }
 
-    
+/* Inicio funciones RAMA MATI (DataBase_Mati)*/    
     
 public function procesarLogin($datos) {
     $session = new Session(); 
@@ -345,10 +345,118 @@ public function procesarRegistro($datos) {
     }
     return ['urlRedireccion' => $urlRedireccion];
 }
+/* FIN funciones RAMA MATI (DataBase_Mati)*/ 
+  
+  
+/* INICIO funciones en main (previo conflicto) */
+    /**
+     * Maneja el proceso de solicitar recuperación de contraseña.
+     * Retorna true si el formato del email es válido (independientemente de si existe o no).
+     * Retorna false solo si el email es inválido.
+     */
+    public function iniciarRecuperacion($email) {
+        // 1. Validar formato
+        if (!Validador::esEmailValido($email)) {
+            return false;
+        }
+
+        // 2. Buscar usuario
+        $usuarios = $this->buscar(['mail' => $email]);
+
+        if ($usuarios != null && count($usuarios) > 0) {
+            $usuario = $usuarios[0];
+            
+            // 3. Generar token con uniqid() como pediste
+            $token = uniqid(); 
+            $usuario->setToken($token);
+            
+            // 4. Guardar y Enviar
+            if ($usuario->modificar()) {
+                // Importar clase Email si hace falta
+                if (!class_exists('Email')) {
+                    include_once(__DIR__ . '/../Clases/Email.php');
+                }
+                
+                $mailer = new Email($usuario->getMail(), $usuario->getNombre(), $token);
+                $mailer->enviarInstrucciones();
+            }
+        }
+        
+        return true;
+    }
 
 
+   /**
+     * Verifica si un token de recuperación es válido y existe.
+     * @param string $token
+     * @return bool
+     */
+    public function verificarToken($token) {
+        $enviado = false;
+        // Validación básica
+        if (empty($token)) {
+            return $enviado;
+        }
 
+        // Usamos el método buscar que ya tienes
+        $usuarios = $this->buscar(['token' => $token]);
 
+        // Si devuelve al menos un usuario, el token es válido
+        if ($usuarios != null && count($usuarios) > 0) {
+            $enviado = true;
+        }
+        return $enviado;
+    }
+
+    /**
+     * Finaliza el proceso de recuperación: valida y guarda la nueva password.
+     * @param array $datos (Debe contener: token, password, confirm_password)
+     * @return bool Devuelve true si se guardó correctamente, false si hubo error.
+     */
+    public function restablecerPassword($datos) {
+        $resp = false; // Inicializamos la variable de respuesta
+        
+        $token = $datos['token'] ?? '';
+        $pass = $datos['password'] ?? '';
+        $confirm = $datos['confirm_password'] ?? '';
+
+        // 1. Validaciones básicas
+        if ($pass !== $confirm) {
+            $_SESSION['errores_abm'] = "Las contraseñas no coinciden.";
+            return $resp;
+        }
+
+        if (!Validador::esPasswordSegura($pass)) {
+            $_SESSION['errores_abm'] = "La contraseña debe tener al menos 8 caracteres.";
+            return $resp;
+        }
+
+        // 2. Buscar usuario por token
+        $usuarios = $this->buscar(['token' => $token]);
+
+        if ($usuarios != null && count($usuarios) > 0) {
+            $usuario = $usuarios[0];
+
+            // 3. Encriptar contraseña y borrar token
+            $newHash = password_hash($pass, PASSWORD_DEFAULT);
+            $usuario->setPassword($newHash);
+            $usuario->setToken(null); 
+
+            // 4. Intentar modificar en BD
+            if ($usuario->modificar()) {
+                $resp = true;
+            } else {
+                $_SESSION['errores_abm'] = "Error al guardar la nueva contraseña en la base de datos.";
+            }
+        } else {
+            $_SESSION['errores_abm'] = "El enlace de recuperación es inválido o ha expirado.";
+        }
+
+        return $resp;
+    }
+
+  /* FIN funciones en main (previo conflicto) */
+  
 /**
  * Procesa la confirmación de cuenta usando un token de URL (GET).
  */
