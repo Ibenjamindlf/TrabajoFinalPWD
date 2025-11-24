@@ -229,19 +229,21 @@ class ABMCompra {
 
             $estadoAntObj = $abmEstado->buscar(['id' => $idEstadoAnterior])[0];
             
+            // se hizo una modificacion comentando alta, de esta forma no crea otra fila cuando se hace efectivo el pago
+            // directamente se modifica el estado a 3 (pago_aceptado)
             $seCerroEstado = $abmEstado->modificacion([
                 'id' => $idEstadoAnterior,
                 'idCompra' => $idCompraActiva,
-                'idEstadoTipo' => 1,
+                'idEstadoTipo' => 3,
                 'fechaIni' => $estadoAntObj->getFechaIni(),
                 'fechaFin' => date("Y-m-d H:i:s")
             ]);
 
             if ($seCerroEstado) {
-                $abmEstado->alta([
-                    'idCompra' => $idCompraActiva,
-                    'idEstadoTipo' => 3 
-                ]);
+                // $abmEstado->alta([
+                //     'idCompra' => $idCompraActiva,
+                //     'idEstadoTipo' => 3 
+                // ]);
 
                 $abmUsuario = new ABMUsuario();
                 $usuarioObj = $abmUsuario->buscar(['id' => $idUsuario])[0];
