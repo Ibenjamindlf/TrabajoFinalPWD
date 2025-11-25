@@ -117,5 +117,50 @@ class ABMCompraEstado {
         }
         return $resp;
     }
+
+    public function cambiarEstado($param){
+        $idCompra = $param['idCompra'];
+        $idNuevoEstado = $param['nuevoEstado'];
+        $compraEstado = $this->buscar(['idCompra'=>$idCompra]);
+        $compraEstadoActual = $compraEstado[0];
+        $datosModificados = ['id'=>$compraEstadoActual->getId(),
+                            'idCompra'=>$idCompra,
+                            'idEstadoTipo'=>$idNuevoEstado,
+                            'fechaIni'=>$compraEstadoActual->getFechaIni(),
+                            'fechaFin'=>$compraEstadoActual->getFechaFin()];
+        $seModifico = $this->modificacion($datosModificados);
+        return $seModifico;
+    }
+
+    public function verificacionTransicionEstado($param){
+
+        $idCompra = $param['idCompra'];
+        $idNuevoEstado = $param['nuevoEstado'];
+
+        $compraEstado = $this->buscar(['idCompra'=>$idCompra]);
+        $compraEstadoActual = $compraEstado[0];
+        
+        $idActualEstado = $compraEstadoActual->getIdEstadoTipo();
+        echo "id compra: $idCompra , idNuevoEstado: $idNuevoEstado , idActualEstado: $idActualEstado";
+        $transicionesPermitidas = [
+        1 => [3, 6],   // CARRITO → PAGO, CANCELADO
+        3 => [4, 6],   // PAGO → PREPARACION, CANCELADO
+        4 => [5, 6],   // PREPARACION → ENVIADO, CANCELADO
+        5 => [7, 8],   // ENVIADO → ENTREGADO, DEVUELTO
+        7 => [8],      // ENTREGADO → DEVUELTO
+        6 => [],       // CANCELADO → nada
+        8 => []        // DEVUELTO → nada
+        ];
+
+        // Si el estado no existe en el array → inválido
+        if (!isset($transicionesPermitidas[$idActualEstado])) {
+            $esTransicionValida = false;
+        } else {
+            $esTransicionValida = in_array($idNuevoEstado, $transicionesPermitidas[$idActualEstado]);
+        }
+
+    return $esTransicionValida;
+}
+
 }
 ?>

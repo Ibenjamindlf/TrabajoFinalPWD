@@ -1,17 +1,36 @@
 <?php
 require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/ABMMenuRol.php';
-
 $session = new Session(); // session_start() interno
 
-// ---- Estado de sesión / informacion de roles ----
+// ---- Constantes de roles (evitan los "magic numbers") ----
+require_once __DIR__ . '/../../Control/roles.php';
+
+// ---- Estado de sesión / normalización de roles ----
 $logueado = $session->activa();
 $usuario = $logueado ? $session->getNombreUsuario() : null;
-$rawRoles = $logueado ? $session->getRoles() : [4];
-// ---- Informacion del menu dinamico ----
-$abmMenuRol = new ABMMenuRol();
-    $param['idRol'] = $rawRoles[0];
-    $algo = $abmMenuRol->buscar($param);
+$rawRoles = $logueado ? $session->getRoles() : null;
+
+// Normalizar a array de enteros y tratar "no logueado" como rol público
+if ($rawRoles === null || $rawRoles === [] || $rawRoles === '') {
+    $roles = [ROLE_PUBLICO];
+} else {
+    // Si session->getRoles() devuelve un único valor (int o string) o un array
+    if (!is_array($rawRoles)) {
+        $roles = [(int)$rawRoles];
+    } else {
+        $roles = array_map('intval', $rawRoles);
+    }
+}
+
+// Obtener el "mejor" rol (el número más bajo => mayor privilegio)
+$minRole = count($roles) ? min($roles) : ROLE_PUBLICO;
+
+// Helper: devuelve true si el usuario puede ver elementos cuyo máximo rol permitido sea $maxRole
+// Ejemplo: canView(3) => visible para roles 1,2,3 (superAdmin, admin, cliente)
+function canView(int $maxRole) {
+    global $minRole;
+    return $minRole <= $maxRole;
+}
 ?>
 
 
@@ -55,27 +74,51 @@ $abmMenuRol = new ABMMenuRol();
                     </span>
                 </a>
             </div>
-    <!-- Navigation Menu -->
-    <nav class="hidden md:flex space-x-8 py-7">
-        <!-- Mi cuenta / Iniciar sesión -->
-        <?php if ($logueado): ?>
+
+
+
+        <!-- Navigation Menu -->
+<!-- Navigation Menu -->
+<nav class="hidden md:flex space-x-8 py-4">
+    <!-- Productos y Sobre nosotros son públicos -->
+    <?php if (canView(ROLE_PUBLICO)): ?>
+        <a href="/TrabajoFinalPWD/Vista/tienda.php" class="text-gray-200 hover:text-orange-400 font-medium">Productos</a>
+        <a href="/TrabajoFinalPWD/Vista/about.php" class="text-gray-200 hover:text-orange-400 font-medium">Sobre nosotros</a>
+    <?php endif; ?>
+
+    <!-- Carrito: cliente (3) en adelante (1,2,3) -->
+    <?php if (canView(ROLE_CLIENTE)): ?>
+        <a href="/TrabajoFinalPWD/Vista/cart.php" class="text-gray-200 hover:text-orange-400 font-medium">Carrito</a>
+    <?php endif; ?>
+
+    <!-- Mi cuenta / Iniciar sesión -->
+    <?php if ($logueado): ?>
         <a href="/TrabajoFinalPWD/Vista/miCuenta.php" class="text-gray-200 hover:text-orange-400 font-medium">Mi cuenta</a>
-        <?php else: ?>
+        <!-- <a href="/TrabajoFinalPWD/Vista/accion/accionLogout.php" class="text-gray-200 hover:text-orange-400 font-medium">Cerrar sesión</a> -->
+    <?php else: ?>
         <a href="/TrabajoFinalPWD/Vista/login.php" class="text-gray-200 hover:text-orange-400 font-medium">Iniciar sesión</a>
-        <?php endif; ?>
-        <!-- Menu dinamico, dependiendo del rol -->
-        <?php
-        foreach ($algo as $menuRol) {
-        $menu = $menuRol->getObjMenu();
-        $nombreMenu = $menu->getNombre();
-        $linkMenu = $menu->getLink();
-        ?>
-        <a href="<?php echo $linkMenu ?>" class="text-gray-200 hover:text-orange-400 font-medium"><?php echo $nombreMenu?></a>
-        <?php
-        }
-        ?>
-    </nav>
+    <?php endif; ?>
+
+    <!-- Panel productos: admin (2) en adelante (1,2) -->
+    <?php if (canView(ROLE_ADMIN)): ?>
+        <a href="/TrabajoFinalPWD/Vista/admin/panelAdmin.php" class="text-yellow-400 font-bold">Panel Productos</a>
+    <?php endif; ?>
+
+    <!-- Panel usuario: solo superAdmin (1) -->
+    <?php if ($minRole === ROLE_SUPERADMIN): ?>
+        <a href="/TrabajoFinalPWD/Vista/admin/panelSuperUsuario.php" class="text-yellow-300 font-bold">Panel Usuario</a>
+    <?php endif; ?>
+</nav>
+
+
     </div>
+    <?php 
+    // ⚠️ Funcion para debug ⚠️
+    // print_r($rol);
+    // echo $rol[0];
+    // echo "nashei";
+    // var_dump($_SESSION);
+    ?>
 </header>
 
     </div>

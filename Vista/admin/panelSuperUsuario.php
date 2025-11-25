@@ -1,119 +1,92 @@
 <?php
-require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/autenticacion.php';
-require_once __DIR__ . '/../../Control/roles.php';
+$Titulo = "Panel Usuarios";
+include_once('../structure/header.php');
 
-include_once __DIR__ . '/../../Control/ABMUsuarioRol.php';
-include_once __DIR__ . '/../../Control/ABMRol.php';
+require_once __DIR__ . '/../../Control/ABMUsuario.php';
+require_once __DIR__ . '/../../Control/ABMRol.php';
+require_once __DIR__ . '/../../Control/ABMUsuarioRol.php';
 
-$session = new Session();
-
-// Requiere ser admin (2) o superior (1)
-requireAtLeastRole($session, ROLE_SUPERADMIN, '/TrabajoFinalPWD/inicio.php'); // opcional: redirigir a inicio si no tiene permiso
-
-include_once("../../Control/ABMUsuario.php");
 $abmUsuario = new ABMUsuario();
-$arrayUsuario = $abmUsuario->buscar(NULL);
-if ($arrayUsuario != null) {
-    $cantUsuarios = count($arrayUsuario);
-} else {
-    $cantUsuarios = 0;
-}
+$abmUsuarioRol = new ABMUsuarioRol();
+$abmRol = new ABMRol();
 
+$usuarios = $abmUsuario->buscar(null);
+$roles = $abmRol->buscar(null); // Traer todos los roles
+
+$mensaje = isset($_GET['msg']) ? $_GET['msg'] : null;
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>    
-    <link rel="shortcut icon" href="/TrabajoFinalPWD/Vista/sources/Logo.png" type="image/x-icon">
-    <title>Panel SuperAdmin</title>
-</head>
-<body>
-    <?php
-        include_once ('../structure/header.php');
-    ?>
-<main class="bg-gray-100 mt-12 py-20">
-    <div class="container mx-auto px-4 mt-12"> <div class="bg-white rounded-lg overflow-hidden shadow-lg">
-            
-            <div class="p-4 border-b rounded-t-lg bg-blue-600 text-white flex justify-between items-center">
-                <h4 class="text-xl font-semibold m-0">Usuarios Registrados</h4>
-                
-            </div>
 
-            <div class="p-4">
-                <?php if ($cantUsuarios > 0): ?>
-                    <table class="w-full border-collapse">
-                        <thead class="bg-gray-800 text-white text-center">
-                            <tr>
-                                <th class="border border-gray-300 p-3">ID</th>
-                                <th class="border border-gray-300 p-3">Nombre</th>
-                                <th class="border border-gray-300 p-3">Mail</th>
-                                <th class="border border-gray-300 p-3">Rol</th>
-                                <th class="border border-gray-300 p-3">habilitado</th>
-                                <th class="border border-gray-300 p-3">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($arrayUsuario as $unUsuario) { ?>
-                                <?php 
-                                    $idUsuario = $unUsuario->getId();
-                                    $abmUsuarioRol = new ABMUsuarioRol();
-                                    $arrayUsuarioRol = $abmUsuarioRol->buscar(['idUsuario' => $idUsuario]);
-                                    $cantUsuarioRol = count($arrayUsuarioRol);
-                                    $rolDisplay = "";
-                                    if ($cantUsuarioRol > 0) {
-                                        foreach ($arrayUsuarioRol as $usuarioRol) {
-                                            $idRol = $usuarioRol->getIdRol();
-                                            $abmRol = new ABMRol();
-                                            $objRol = new Rol();
-                                            $objRol->setId($idRol);
-                                            $objRol->cargar($objRol);
-
-                                            $rolDescripcion = $objRol->getDescripcion();
-                                            $rolDisplay .= "-- ". $rolDescripcion . " --";
-                                        }
-                                    } else {
-                                        $rolDisplay = "Sin rol asignado";
-                                    }
-                                    ?>
-                                <tr class="odd:bg-gray-100">
-                                    <td class="border border-gray-300 p-3 align-middle"><?php echo $unUsuario->getId(); ?></td>
-                                    <td class="border border-gray-300 p-3 align-middle"><?php echo $unUsuario->getNombre(); ?></td>
-                                    <td class="border border-gray-300 p-3 align-middle"><?php echo $unUsuario->getMail(); ?></td>
-                                    <td class="border border-gray-300 p-3 align-middle"><?php echo $rolDisplay; ?></td>
-                                    <td class="border border-gray-300 p-3 align-middle">
-                                        <?php if($unUsuario->getDeshabilitado()!= null){?>
-                                            <span class="text-red-600 font-bold">Deshabilitado</span>
-                                        <?php } else { ?>
-                                            <span class="text-green-600 font-bold">Habilitado</span>
-                                        <?php } ?>
-
-                                    </td>
-                                    <td class="border border-gray-300 p-3 align-middle text-center">
-                                        <a href="modificarUsuario.php?id=<?php echo $unUsuario->getId(); ?>" 
-                                           class="py-1 px-3 text-sm rounded-md shadow-sm bg-yellow-500 text-black hover:bg-yellow-600 mt-2 block">
-                                            Modificar
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
-                    <div class="p-4 rounded-md bg-blue-100 text-blue-800 text-center">
-                        No hay productos registrados.
-                    </div>
-                <?php endif; ?>
-            </div>
+<div class="container mx-auto py-8">
+    <?php if ($mensaje !== null): ?>
+        <div class="text-center mb-4 p-4 rounded-lg <?php echo (strpos($mensaje, 'ERROR') !== false) 
+                ? 'bg-red-100 text-red-700 border border-red-300' 
+                : 'bg-green-100 text-green-700 border border-green-300'; ?>">
+            <?php echo htmlspecialchars($mensaje); ?>
         </div>
-    </div>
-    </main>    
-    <?php
-        include_once ('../structure/footer.php');
-    ?>
-</body>
-</html>
+    <?php endif; ?>
+    <h1 class="text-3xl font-semibold text-center mb-8">Panel de Usuarios</h1>
+<div class="w-3/4 mx-auto">
+    <div class="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200">
+    <table class="w-full table-fixed"> <!-- table-fixed reduce el reflow y evita que una columna crezca demasiado -->
+        <thead class="bg-gray-900 text-white text-xs uppercase">
+            <tr>
+                <th class="py-2 px-3 text-left">ID</th>
+                <th class="py-2 px-3 text-left">Nombre</th>
+                <th class="py-2 px-3 text-left">Email</th>
+                <th class="py-2 px-3 text-center">Rol | Acción</th>
+            </tr>
+        </thead>
 
+        <tbody class="text-gray-800 text-sm divide-y divide-gray-200">
 
+            <?php foreach ($usuarios as $usuario): ?>
+                <?php 
+                    $idUsuario = $usuario->getId();
+                    $usuarioRoles = $abmUsuarioRol->buscar(['idUsuario' => $idUsuario]);
+                    $rolActual = count($usuarioRoles) > 0 ? $usuarioRoles[0]->getIdRol() : null;
+                ?>
+
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-2 px-2 font-medium whitespace-nowrap"><?php echo $idUsuario; ?></td>
+
+                    <!-- Usamos truncate para evitar que el contenido rompa la tabla -->
+                    <td class="py-2 px-2 whitespace-nowrap truncate" title="<?php echo $usuario->getNombre(); ?>">
+                        <?php echo $usuario->getNombre(); ?>
+                    </td>
+
+                    <td class="py-2 px-2 whitespace-nowrap truncate" title="<?php echo $usuario->getMail(); ?>">
+                        <?php echo $usuario->getMail(); ?>
+                    </td>
+
+                    <td class="py-2 px-2 text-center">
+                        <form method="POST" action="../accion/Usuarios/accionModificarRol.php" class="flex items-center justify-center gap-1">
+                            <input type="hidden" name="idUsuario" value="<?php echo $idUsuario; ?>">
+
+                            <select name="nuevoRol"
+                                class="px-1 py-1 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 transition w-1/2">
+                                <?php foreach ($roles as $rol): ?>
+                                    <option value="<?php echo $rol->getId(); ?>"
+                                        <?php echo ($rolActual == $rol->getId()) ? 'selected' : ''; ?>>
+                                        <?php echo $rol->getDescripcion(); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <button type="submit"
+                                class="text-sm py-1 px-2 rounded-md bg-yellow-500 hover:bg-yellow-600 text-black font-medium shadow-sm transition">
+                                Cambiar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+            <?php endforeach; ?>
+
+        </tbody>
+    </table>
+</div>
+</div>
+
+</div>
+
+<?php include_once('../structure/footer.php'); ?>

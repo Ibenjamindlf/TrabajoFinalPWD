@@ -138,12 +138,47 @@ CREATE TABLE compraEstado (
 INSERT INTO rol (descripcion) VALUES
 ('Super_Admin'),
 ('Admin'),
-('Cliente');
+('Cliente'),
+('Publico');
+
+INSERT INTO menu (nombre, descripcion, link, idPadre, deshabilitado) VALUES
+('Sobre Nosotros', 'Informacion del equipo de trabajo', '/TrabajoFinalPWD/Vista/about.php', NULL, NULL),
+('Productos', 'visualizar los productos', '/TrabajoFinalPWD/Vista/tienda.php', NULL, NULL),
+('Carrito', 'Carrito de compras', '/TrabajoFinalPWD/Vista/cart.php', NULL, NULL),
+('Panel Admin', 'Visualizar todos los paneles para administradores', '/TrabajoFinalPWD/Vista/admin/permisosAdmin.php', NULL, NULL),
+('Panel Super Admin', 'Visualizar todos los paneles para super administradores', '/TrabajoFinalPWD/Vista/admin/permisosSuperAdmin.php', NULL, NULL);
+
+/* ROL 1: superAdmin (ve todo: 1,2,3,4,5) */
+INSERT INTO menurol (idMenu, idRol) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(5, 1);
+
+/* ROL 2: admin (ve: 1,2,3,4) */
+INSERT INTO menurol (idMenu, idRol) VALUES
+(1, 2),
+(2, 2),
+(3, 2),
+(4, 2);
+
+/* ROL 3: cliente (ve: 1,2,3) */
+INSERT INTO menurol (idMenu, idRol) VALUES
+(1, 3),
+(2, 3),
+(3, 3);
+
+/* ROL 4: publico (ve: 1,2) */
+INSERT INTO menurol (idMenu, idRol) VALUES
+(1, 4),
+(2, 4);
+
+
 
 
 
 /** Inserta los tipos de estado de compra*/
-INSERT INTO compraEstadoTipo (descripcion, detalle) VALUES 
+/* INSERT INTO compraEstadoTipo (descripcion, detalle) VALUES 
 ('CARRITO', 'Compra en proceso, no finalizada por el usuario.'),
 ('PENDIENTE_PAGO', 'A la espera de confirmación de pago.'),
 ('PAGO_ACEPTADO', 'Pago confirmado y recibido.'),
@@ -153,6 +188,16 @@ INSERT INTO compraEstadoTipo (descripcion, detalle) VALUES
 ('ENTREGADO', 'El cliente ha recibido su pedido.'),
 ('CANCELADO', 'El pedido ha sido cancelado.'),
 ('FALLA_ENTREGA', 'El transportista no pudo completar la entrega.'),
+('DEVUELTO', 'El cliente ha solicitado y completado una devolución.'); */
+/* Estados nuevos */
+INSERT INTO compraEstadoTipo (descripcion, detalle) VALUES 
+('CARRITO', 'Compra en proceso, no finalizada por el usuario.'),
+('PENDIENTE_PAGO', 'A la espera de confirmación de pago.'),
+('PAGO', 'Pago confirmado y recibido.'),
+('PREPARACION', 'El pedido se está preparando para su envío.'),
+('ENVIADO', 'El pedido fue entregado al transportista.'),
+('CANCELADO', 'El pedido ha sido cancelado.'),
+('ENTREGADO', 'El cliente ha recibido su pedido.'),
 ('DEVUELTO', 'El cliente ha solicitado y completado una devolución.');
 
 /**Para continuar la numeración automática si no usas los IDs sugeridos, 
@@ -165,3 +210,27 @@ VALUES
 ('LOS GATOS / EN VIVO','50','6000','1.Mama rock. 2.Mujer de carbon. 3.Blues de la calle 23. 4.Cancion para un ladron. 5.Campo para tres. Interprete: Los gatos','Vista/sources/img/los-gatos-en-vivo.jpg'),
 ('PESCADO RABIOSO / ARTAUD','50','78200','1.Por. 2.Todas las hojas son viento. 3.Cementerio Club. 4.Bajan. 5.La cantata de puentes amarillos. Interprete: Pescado rabioso','Vista/sources/img/pescado-rabioso.jpg'),
 ('GUSTAVO CERATI – SIEMPRE ES HOY (LP Doble)','50','55000','1.Artefacto. 2.Naci para esto. 3.Casa. 4.Torre de Marfil. 5.Especie. Interprete: Gustavo Cerati','Vista/sources/img/gustavo-cerati-siempre-es-hoy.jpg');
+
+CREATE VIEW vista_usuarios_roles AS
+SELECT
+    u.mail,  
+    r.descripcion       
+FROM
+    usuario u
+INNER JOIN
+    usuarioRol ur ON u.id = ur.idUsuario  
+INNER JOIN
+    rol r ON ur.idRol = r.id;         
+
+
+DELIMITER $$
+
+CREATE TRIGGER asignar_rol_cliente
+AFTER INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    INSERT INTO usuariorol (idusuario, idrol)
+    VALUES (NEW.id, 3);
+END$$
+
+DELIMITER ;

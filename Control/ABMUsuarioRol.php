@@ -162,5 +162,19 @@ class ABMUsuarioRol {
         }
         return $resp;
     }
+ 
+    public function cambioRol ($param){
+        $idUsuario = $param['idUsuario'];
+        $idNuevoRol = $param['nuevoRol'];
+
+        $unUsuario = $this->buscar(['idUsuario'=>$idUsuario]);
+        $unUsuario = $unUsuario[0];
+        
+        $seModifico = $this->modificacion(['id'=>$unUsuario->getId(),
+                            'idUsuario'=>$idUsuario,
+                            'idRol'=>$idNuevoRol]);
+
+    return $seModifico;
+    }
 }
 ?>
