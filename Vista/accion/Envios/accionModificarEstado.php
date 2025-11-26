@@ -2,6 +2,11 @@
 require_once __DIR__ . '/../../../Control/Session.php';
 require_once __DIR__ . '/../../../Control/ABMCompraEstado.php';
 
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../includes');
+$dotenv->load();
+
 $session = new Session();
 
 if (!$session->activa()) {
