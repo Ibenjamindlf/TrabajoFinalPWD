@@ -5,6 +5,11 @@ include_once(__DIR__ . '/../Modelo/compra.php');
 include_once(__DIR__ . '/../Modelo/CompraEstadoTipo.php');
 include_once(__DIR__ . '/validadores/Validador.php');
 
+include_once(__DIR__ . '/ABMUsuario.php');
+include_once(__DIR__ . '/ABMCompra.php');
+include_once(__DIR__ . '/ABMCompraEstadoTipo.php');
+include_once(__DIR__ . '/../Clases/Email.php');
+
 class ABMCompraEstado {
 
     /**
@@ -117,10 +122,38 @@ class ABMCompraEstado {
         }
         return $resp;
     }
+    
+    private function notificarCambioEstado($idCompra, $idEstadoTipo) {
+        try {
+            $abmTipo = new ABMCompraEstadoTipo();
+            $tipoArr = $abmTipo->buscar(['id' => $idEstadoTipo]);
+            print_r($tipoArr);
+            if (empty($tipoArr)) return;
+            $descEstado = $tipoArr[0]->getDescripcion();
+            echo $descEstado;
+    
+            $abmCompra = new ABMCompra();
+            $compraArr = $abmCompra->buscar(['id' => $idCompra]);
+            print_r($compraArr);
+            if (empty($compraArr)) return;
+            $idUsuario = $compraArr[0]->getIdUsuario();
+    
+            $abmUsuario = new ABMUsuario();
+            $usuarioArr = $abmUsuario->buscar(['id' => $idUsuario]);
+            print_r($usuarioArr);
+            
+            if (!empty($usuarioArr)) {
+                echo "hola";
+                $user = $usuarioArr[0];
+                $emailSender = new Email($user->getMail(), $user->getNombre(), null);
+                $emailSender->enviarActualizacionEstado($idCompra, $descEstado);
+            }
+        } catch (Exception $e) {}
+    }
 
     public function cambiarEstado($param){
         $idCompra = $param['idCompra'];
-        $idNuevoEstado = $param['nuevoEstado'];
+        $idNuevoEstado = (int)$param['nuevoEstado'];
         $compraEstado = $this->buscar(['idCompra'=>$idCompra]);
         $compraEstadoActual = $compraEstado[0];
         $datosModificados = ['id'=>$compraEstadoActual->getId(),
@@ -129,6 +162,9 @@ class ABMCompraEstado {
                             'fechaIni'=>$compraEstadoActual->getFechaIni(),
                             'fechaFin'=>$compraEstadoActual->getFechaFin()];
         $seModifico = $this->modificacion($datosModificados);
+        if ($seModifico){
+            $this->notificarCambioEstado($idCompra,$idNuevoEstado);
+        }
         return $seModifico;
     }
 
@@ -161,6 +197,7 @@ class ABMCompraEstado {
 
     return $esTransicionValida;
 }
+
 
 }
 ?>
