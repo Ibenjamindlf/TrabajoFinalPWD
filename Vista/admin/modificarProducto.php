@@ -59,7 +59,7 @@ if ($id) {
 
             <div class="p-6">
                 <?php if ($producto): ?>
-                    <form action="../accion/accionModificarProducto.php" method="POST" enctype="multipart/form-data" id="formProducto">
+                    <form action="../accion/Producto/accionModificarProducto.php" method="POST" enctype="multipart/form-data" id="formProducto">
 
                         <div class="mb-4">
                             <label for="id" class="block text-sm font-medium text-gray-700 mb-1">ID Producto</label>
