@@ -1,6 +1,7 @@
 <?php
 // 1. Iniciar sesión
-session_start();
+    require_once __DIR__ . '/../Control/Session.php';
+    $sesion = new Session();
 
 // 2. Lógica del Modal de Éxito
 $activarModalJS = false;
