@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    require_once __DIR__ . '/../Control/Session.php';
+    $sesion = new Session();
     include_once ('../Vista/structure/header.php');
 ?>
 <!DOCTYPE html>
