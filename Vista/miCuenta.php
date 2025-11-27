@@ -1,10 +1,13 @@
 <?php
 require_once __DIR__ . '/../Control/Session.php';
-require_once __DIR__ . '/../Control/autenticacion.php';
-require_once __DIR__ . '/../Control/roles.php';
 
-$session = new Session();
-requireLogin($session); // redirige a login si no hay sesión
+$sesion = new Session();
+$esRolPermitdo = $sesion->requiereRol([1,2,3]); // Solo rol 1 puede ver esto
+
+if (!$esRolPermitdo){
+    header("Location: /TrabajoFinalPWD/Vista/login.php");
+    exit;
+}
 
 include_once('../Vista/structure/header.php');
 ?>
