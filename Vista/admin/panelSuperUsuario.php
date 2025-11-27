@@ -1,11 +1,20 @@
 <?php
 $Titulo = "Panel Usuarios";
-include_once('../structure/header.php');
 
 require_once __DIR__ . '/../../Control/ABMUsuario.php';
 require_once __DIR__ . '/../../Control/ABMRol.php';
 require_once __DIR__ . '/../../Control/ABMUsuarioRol.php';
+require_once __DIR__ . '/../../Control/Session.php';
 
+$sesion = new Session();
+$esRolPermitdo = $sesion->requiereRol([1,2]); // Solo rol 1 puede ver esto
+
+if (!$esRolPermitdo){
+    header("Location: /TrabajoFinalPWD/Vista/login.php");
+    exit;
+}
+
+include_once('../structure/header.php');
 $abmUsuario = new ABMUsuario();
 $abmUsuarioRol = new ABMUsuarioRol();
 $abmRol = new ABMRol();

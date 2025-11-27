@@ -5,10 +5,15 @@ require_once __DIR__ . '/../Control/ABMCompraProducto.php';
 require_once __DIR__ . '/../Control/ABMProducto.php';
 require_once __DIR__ . '/../Control/ABMCompraEstado.php';
 
-$session = new Session();
-if (!$session->activa()) { header('Location: /TrabajoFinalPWD/Vista/login.php'); exit; }
+$sesion = new Session();
+$esRolPermitdo = $sesion->requiereRol([1,2,3]); // Solo rol 1 puede ver esto
 
-$idUsuario = $session->getIdUsuario();
+if (!$esRolPermitdo){
+    header("Location: /TrabajoFinalPWD/Vista/login.php");
+    exit;
+}
+
+$idUsuario = $sesion->getIdUsuario();
 
 // Buscar carrito activo
 $abmCompra = new ABMCompra();

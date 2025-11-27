@@ -1,10 +1,14 @@
 <?php
 require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/autenticacion.php';
-require_once __DIR__ . '/../../Control/roles.php';
 
-$session = new Session();
-requireAtLeastRole($session, ROLE_ADMIN, '/TrabajoFinalPWD/inicio.php');
+
+$sesion = new Session();
+$esRolPermitdo = $sesion->requiereRol([1,2]); // Solo rol 1 puede ver esto
+
+if (!$esRolPermitdo){
+    header("Location: /TrabajoFinalPWD/Vista/login.php");
+    exit;
+}
 
 include_once("../../Control/ABMcompra.php");
 include_once("../../Control/ABMUsuario.php");
@@ -72,7 +76,7 @@ $mensaje = isset($_GET['msg']) ? $_GET['msg'] : null;
                                 <th class="p-3 text-left">Fecha</th>
                                 <th class="p-3 text-left">Estado actual</th>
                                 <th class="p-3 text-left">Productos</th>
-                                <th class="p-3 text-center">Acciones</th>
+                                <!-- <th class="p-3 text-center">Acciones</th> -->
                             </tr>
                         </thead>
                         <tbody class="text-sm">
@@ -94,7 +98,7 @@ $mensaje = isset($_GET['msg']) ? $_GET['msg'] : null;
                                 <td class="p-3 align-center"><?php echo htmlspecialchars($fechaIni); ?></td>
                                 <td class="p-3 align-center">
                                     <div class="flex items-center gap-3">
-                                        <span class="px-2 py-1 text-xs rounded-full <?php echo badgeClassByEstado($detalleEstado); ?>">
+                                        <span class="w-32 text-center py-1 text-xs rounded-full <?php echo badgeClassByEstado($detalleEstado); ?>">
                                             <?php echo htmlspecialchars($detalleEstado);?>
                                         </span>
 
@@ -138,11 +142,7 @@ $mensaje = isset($_GET['msg']) ? $_GET['msg'] : null;
                                     </ul>
                                 </td>
 
-                                <td class="p-3 align-top text-center">
-                                    <a href="verCompra.php?id=<?php echo $idUnaCompra; ?>" class="inline-block px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-sm mb-2">Ver</a>
-                                    <a href="../accion/Compra/eliminarCompra.php?id=<?php echo $idUnaCompra; ?>" class="inline-block px-3 py-1 rounded bg-red-600 hover:bg-red-700 text-white text-sm"
-                                       onclick="return confirm('¿Eliminar compra #<?php echo $idUnaCompra; ?>? Esta acción no se puede deshacer.');">Eliminar</a>
-                                </td>
+                                
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

@@ -1,12 +1,14 @@
 <?php
 require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/autenticacion.php';
-require_once __DIR__ . '/../../Control/roles.php';
 
-$session = new Session();
 
-// Requiere ser admin (2) o superior (1)
-requireAtLeastRole($session, ROLE_SUPERADMIN, '/TrabajoFinalPWD/inicio.php'); // opcional: redirigir a inicio si no tiene permiso
+$sesion = new Session();
+$esRolPermitdo = $sesion->requiereRol([1]); // Solo rol 1 puede ver esto
+
+if (!$esRolPermitdo){
+    header("Location: /TrabajoFinalPWD/Vista/login.php");
+    exit;
+}
 
 include_once(__DIR__ . "/../../Control/ABMUsuario.php");
 include_once(__DIR__ . "/../../Control/ABMRol.php");

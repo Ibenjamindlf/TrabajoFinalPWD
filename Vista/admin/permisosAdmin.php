@@ -1,11 +1,15 @@
 <?php
 require_once __DIR__ . '/../../Control/Session.php';
-require_once __DIR__ . '/../../Control/autenticacion.php';
-require_once __DIR__ . '/../../Control/roles.php';
+
 
 // Solo admins pueden entrar
-$session = new Session();
-requireAtLeastRole($session, ROLE_ADMIN, '/TrabajoFinalPWD/inicio.php');
+$sesion = new Session();
+$esRolPermitdo = $sesion->requiereRol([2]); // Solo rol 1 puede ver esto
+
+if (!$esRolPermitdo){
+    header("Location: /TrabajoFinalPWD/Vista/login.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">

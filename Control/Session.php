@@ -103,6 +103,33 @@ class Session {
             session_destroy(); // Destruye la sesión
         }
     }
+
+    /**
+ * Verifica si el usuario logueado tiene un rol específico
+ * @param array $rolBuscado
+ * @return bool
+ */
+public function verificarRol($rolesRequeridos) {
+    if (!$this->validar()){
+        $rolExito = false;
+    } else {
+        $rolExito = in_array($_SESSION['roles'][0],$rolesRequeridos);
+    }
+    return $rolExito;
+}
+
+/**
+ * Protege una página permitiendo solo usuarios con un rol específico.
+ * Si no tiene el rol → redirige al login o a error.
+ */
+public function requiereRol($rolesRequeridos) {
+    $esRolRequerido = true;
+    if (!$this->verificarRol($rolesRequeridos)) {
+        $esRolRequerido = false;
+    }
+    return $esRolRequerido;
+}
+
 }
 ?>
 
